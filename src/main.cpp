@@ -2,8 +2,8 @@
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 
-const char* ssid = "Station Météo";
-const char* password = "YnryoMétéoStation";
+const char* ssid = "Ynryo's Private Network";
+const char* password = "SecurePassword";
 
 const int led = 2;
 const int capteurLuminosite = 34;
@@ -16,10 +16,12 @@ void setup() {
     while(!Serial){
         Serial.println("\n");
     }
+
     //--------------------GPIO
     pinMode(led, OUTPUT);
     digitalWrite(led, LOW);
     pinMode(capteurLuminosite, INPUT);
+    
     //--------------------SPIFFS
     if(!SPIFFS.begin()) {
         Serial.println("Erreur SPIFFS");
@@ -37,15 +39,19 @@ void setup() {
     }
 
     //--------------------WIFI
-    Serial.begin(115200);
-	delay(1000);
+    WiFi.begin(ssid, password);
+	Serial.print("Tentative de connexion...");
+	
+	while(WiFi.status() != WL_CONNECTED)
+	{
+		Serial.print(".");
+		delay(100);
+	}
+	
 	Serial.println("\n");
-	
-	Serial.println("Création du point d'accès...");
-	WiFi.softAP(ssid, password);
-	
+	Serial.println("Connexion etablie!");
 	Serial.print("Adresse IP: ");
-	Serial.println(WiFi.softAPIP());
+	Serial.println(WiFi.localIP());
 
     //--------------------SERVER
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
