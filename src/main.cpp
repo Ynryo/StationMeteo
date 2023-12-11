@@ -37,19 +37,15 @@ void setup() {
     }
 
     //--------------------WIFI
-    WiFi.begin(ssid, password);
-	Serial.print("Tentative de connexion...");
-	
-	while(WiFi.status() != WL_CONNECTED)
-	{
-		Serial.print(".");
-		delay(100);
-	}
-	
+    Serial.begin(115200);
+	delay(1000);
 	Serial.println("\n");
-	Serial.println("Connexion etablie!");
+	
+	Serial.println("Création du point d'accès...");
+	WiFi.softAP(ssid, password);
+	
 	Serial.print("Adresse IP: ");
-	Serial.println(WiFi.localIP());
+	Serial.println(WiFi.softAPIP());
 
     //--------------------SERVER
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
