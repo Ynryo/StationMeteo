@@ -2,8 +2,8 @@
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 
-const char* ssid = "Ynryo's Private Network";
-const char* password = "SecurePassword";
+const char* ssid = "TP-Link_FC6C";
+const char* password = "03798966";
 
 const int led = 2;
 const int capteurLuminosite = 34;
@@ -66,21 +66,25 @@ void setup() {
         request->send(SPIFFS, "/script.js", "text/javascript");
     });
 
-    server.on("/lireMuminosite", HTTP_GET, [](AsyncWebServerRequest *request){
-        int val = analogRead(capteurLuminosite);
-        String luminosite = String(val);
-        request->send(200, "text/plain", luminosite);
+    server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request){
+        String datas = String(analogRead(capteurLuminosite));
+        request->send(200, "text/plain", datas);
     });
 
-    server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
-        digitalWrite(led, HIGH);
-        request->send(200);
+    server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request){
+        String datas = String(analogRead(capteurLuminosite));
+        request->send(200, "text/plain", datas);
     });
 
-    server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
-        digitalWrite(led, LOW);
-        request->send(200);
-    });
+    // server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
+    //     digitalWrite(led, HIGH);
+    //     request->send(200);
+    // });
+
+    // server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
+    //     digitalWrite(led, LOW);
+    //     request->send(200);
+    // });
 
     server.begin();
     Serial.println("Serveur activé");

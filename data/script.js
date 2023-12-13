@@ -13,10 +13,10 @@ setInterval(function getData(){
     var xhttp = new XMLHttpRequest()
     xhttp.onreadystatechange = function(){
         if(this.readyState == 4 && this.status == 200){
-            document.getElementById("valeurLuminosite").innerHTML = this.responseText;
+            document.getElementById("brightness").innerHTML = this.responseText;
         }
     };
 
-    xhttp.open("GET", "lireLuminosite", true)
+    xhttp.open("GET", "getDatas", true)
     xhttp.send()
 }, 2000)
