@@ -32,38 +32,16 @@ void setup()
         Serial.println("Erreur SPIFFS");
         return;
     }
-    else
-    {
-        Serial.println("SPIFFS loaded");
-    }
-
-    bool fileexists = SPIFFS.exists("/index.html"); // remplacer par le chemin de données du fichier
-    Serial.print(fileexists);
-    if (!fileexists)
-    {
-        Serial.println("Le fichier n'existe pas");
-    }
-    else
-    {
-        Serial.println("Fichier existe déjà");
-    }
 
     File root = SPIFFS.open("/");
-    File file = SPIFFS.open("/index.html");
-    Serial.print("Fichier : ");
-    Serial.println(file.name());
-    file.close();
+    File file = root.openNextFile();
 
-    // Serial.print("Fichier : ");
-    // Serial.println(root.name());
-
-    // while (file)
-    // {
-    //     Serial.print("Fichier : ");
-    //     Serial.println(file.name());
-    //     file.close();
-    //     file = root.openNextFile();
-    // }
+    while(file) {
+        Serial.print("Fichier : ");
+        Serial.println(file.name());
+        file.close();
+        file = root.openNextFile();
+    }
 
     //--------------------WIFI
     WiFi.begin(ssid, password);
@@ -98,7 +76,8 @@ void setup()
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
         String datas = String(analogRead(capteurLuminosite));
-        request->send(200, "text/plain", datas); });
+        request->send(200, "text/plain", datas);
+    });
 
     // server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
     //     digitalWrite(led, HIGH);
