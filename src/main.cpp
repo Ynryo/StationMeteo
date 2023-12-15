@@ -23,20 +23,20 @@ void setup() {
     pinMode(capteurLuminosite, INPUT);
     
     //--------------------SPIFFS
-    if(!SPIFFS.begin()) {
+    if(!SPIFFS.begin(true)) {
         Serial.println("Erreur SPIFFS");
         return;
     }
 
-    File root = SPIFFS.open("/");
-    File file = root.openNextFile();
+    // File root = SPIFFS.open("/");
+    // File file = root.openNextFile();
 
-    while(file) {
-        Serial.print("Fichier : ");
-        Serial.println(file.name());
-        file.close();
-        file = root.openNextFile();
-    }
+    // while(file) {
+    //     Serial.print("Fichier : ");
+    //     Serial.println(file.name());
+    //     file.close();
+    //     file = root.openNextFile();
+    // }
 
     //--------------------WIFI
     WiFi.begin(ssid, password);
