@@ -1,19 +1,23 @@
 #include <Arduino.h>
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
+#include <WiFi.h>
 
-const char* ssid = "TP-Link_FC6C";
-const char* password = "03798966";
+const char *ssid = "Freebox-A05C1B";
+const char *password = "kzvzbq2tdbq6rttrqh6f35";
 
 const int led = 2;
 const int capteurLuminosite = 34;
 
 AsyncWebServer server(80);
+AsyncWebServer events("/events");
 
-void setup() {
+void setup()
+{
     //--------------------Serial
     Serial.begin(115200);
-    while(!Serial){
+    while (!Serial)
+    {
         Serial.println("\n");
     }
 
@@ -21,60 +25,80 @@ void setup() {
     pinMode(led, OUTPUT);
     digitalWrite(led, LOW);
     pinMode(capteurLuminosite, INPUT);
-    
+
     //--------------------SPIFFS
-    if(!SPIFFS.begin()) {
+    if (!SPIFFS.begin(true))
+    {
         Serial.println("Erreur SPIFFS");
         return;
     }
+    else
+    {
+        Serial.println("SPIFFS loaded");
+    }
+
+    bool fileexists = SPIFFS.exists("/index.html"); // remplacer par le chemin de données du fichier
+    Serial.print(fileexists);
+    if (!fileexists)
+    {
+        Serial.println("Le fichier n'existe pas");
+    }
+    else
+    {
+        Serial.println("Fichier existe déjà");
+    }
 
     File root = SPIFFS.open("/");
-    File file = root.openNextFile();
+    File file = SPIFFS.open("/index.html");
+    Serial.print("Fichier : ");
+    Serial.println(file.name());
+    file.close();
 
-    while(file) {
-        Serial.print("Fichier : ");
-        Serial.println(file.name());
-        file.close();
-        file = root.openNextFile();
-    }
+    // Serial.print("Fichier : ");
+    // Serial.println(root.name());
+
+    // while (file)
+    // {
+    //     Serial.print("Fichier : ");
+    //     Serial.println(file.name());
+    //     file.close();
+    //     file = root.openNextFile();
+    // }
 
     //--------------------WIFI
     WiFi.begin(ssid, password);
-	Serial.print("Tentative de connexion...");
-	
-	while(WiFi.status() != WL_CONNECTED)
-	{
-		Serial.print(".");
-		delay(100);
-	}
-	
-	Serial.println("\n");
-	Serial.println("Connexion etablie!");
-	Serial.print("Adresse IP: ");
-	Serial.println(WiFi.localIP());
+    Serial.print("Tentative de connexion...");
+
+    while (WiFi.status() != WL_CONNECTED)
+    {
+        Serial.print(".");
+        delay(100);
+    }
+
+    Serial.println("\n");
+    Serial.println("Connexion etablie!");
+    Serial.print("Adresse IP: ");
+    Serial.println(WiFi.localIP());
 
     //--------------------SERVER
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/index.html", "text/html");
-    });
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(SPIFFS, "/index.html", "text/html"); });
 
-    server.on("/w3.css", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/w3.css", "text/css");
-    });
+    server.on("/w3.css", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(SPIFFS, "/w3.css", "text/css"); });
 
-    server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/script.js", "text/javascript");
-    });
+    server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(SPIFFS, "/script.js", "text/javascript"); });
 
-    server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request){
+    server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
+              {
         String datas = String(analogRead(capteurLuminosite));
-        request->send(200, "text/plain", datas);
-    });
+        request->send(200, "text/plain", datas); });
 
-    server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request){
+    server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
+              {
         String datas = String(analogRead(capteurLuminosite));
-        request->send(200, "text/plain", datas);
-    });
+        request->send(200, "text/plain", datas); });
 
     // server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
     //     digitalWrite(led, HIGH);
@@ -90,6 +114,6 @@ void setup() {
     Serial.println("Serveur activé");
 }
 
-void loop() {
-
+void loop()
+{
 }

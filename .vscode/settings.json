@@ -1,3 +1,7 @@
 {
-    "cmake.sourceDirectory": "/home/sin/Documents/PlatformIO/Projects/StationMeteo/.pio/libdeps/denky32/AsyncTCP"
+    "cmake.sourceDirectory": "/home/sin/Documents/PlatformIO/Projects/StationMeteo/.pio/libdeps/denky32/AsyncTCP",
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "fstream": "cpp"
+    }
 }
