@@ -5,12 +5,17 @@
 
 const char *ssid = "Freebox-A05C1B";
 const char *password = "kzvzbq2tdbq6rttrqh6f35";
+// const char *ssid = "TP-Link_FC6C";
+// const char *password = "03798966";
 
-const int led = 2;
-const int capteurLuminosite = 34;
+// const int led = 2;
+const int luminositySensor = 13;
+const int windSpeedSensor = 12;
+const int windDirectionSensor = 14;
+const int temperatureSensor = 27;
+const int humiditySensor = 26;
 
 AsyncWebServer server(80);
-AsyncWebServer events("/events");
 
 void setup()
 {
@@ -22,9 +27,13 @@ void setup()
     }
 
     //--------------------GPIO
-    pinMode(led, OUTPUT);
-    digitalWrite(led, LOW);
-    pinMode(capteurLuminosite, INPUT);
+    // pinMode(led, OUTPUT);
+    // digitalWrite(led, LOW);
+    pinMode(luminositySensor, INPUT);
+    pinMode(windSpeedSensor, INPUT);
+    pinMode(windDirectionSensor, INPUT);
+    pinMode(temperatureSensor, INPUT);
+    pinMode(humiditySensor, INPUT);
 
     //--------------------SPIFFS
     if (!SPIFFS.begin(true))
@@ -36,7 +45,8 @@ void setup()
     File root = SPIFFS.open("/");
     File file = root.openNextFile();
 
-    while(file) {
+    while (file)
+    {
         Serial.print("Fichier : ");
         Serial.println(file.name());
         file.close();
@@ -70,14 +80,13 @@ void setup()
 
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        String datas = String(analogRead(capteurLuminosite));
-        request->send(200, "text/plain", datas); });
-
-    server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
-              {
-        String datas = String(analogRead(capteurLuminosite));
-        request->send(200, "text/plain", datas);
-    });
+        String datas = "{\"brightness\":" + String(digitalRead(luminositySensor)) + 
+        ",\"windSpeed\":" + String(digitalRead(windSpeedSensor)) + 
+        ",\"windDirection\":" + String(digitalRead(windDirectionSensor)) + 
+        ",\"temperature\":" + String(digitalRead(temperatureSensor)) + 
+        ",\"humidity\":" + String(digitalRead(humiditySensor)) + 
+        "}";
+       request->send(200, "text/json", datas); });
 
     // server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
     //     digitalWrite(led, HIGH);
