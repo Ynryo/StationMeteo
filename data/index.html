@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="w3.css">
     <script type="text/javascript" src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
 <body class="w3-animate-opacity">
@@ -21,6 +22,7 @@
     <div class="w3-margin w3-center w3-card w3-padding-24">
         <h3 class="w3-padding">Luminosité</h3>
         <p class="w3-xxlarge"><span id="brightness">0</span> lux</p>
+        <canvas id="luminosity" style="width:100%;max-width:100%;height:400px"></canvas>
     </div>
     <div class="w3-margin w3-center w3-card w3-padding-24">
         <h3 class="w3-padding">Vent</h3>
@@ -35,6 +37,36 @@
         <h3 class="w3-padding">Humidité</h3>
         <p class="w3-xxlarge"><span id="humidity">0</span> %</p>
     </div>
+    <script>
+        const xValues = ["1 heure", "50 minutes", "40 minutes", "30 minutes", "20 minutes", "10 minutes", "Maintenant"];
+        new Chart("luminosity", {
+            type: "line",
+            data: {
+                labels: xValues,
+                datasets: [{
+                    data: analyseData(),
+                    borDerColor: "orange",
+                    fill: true
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Luminosité (lux)'
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Temps (minutes)'
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

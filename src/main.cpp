@@ -86,7 +86,7 @@ void setup()
         ",\"temperature\":" + String(digitalRead(temperatureSensor)) + 
         ",\"humidity\":" + String(digitalRead(humiditySensor)) + 
         "}";
-       request->send(200, "text/json", datas); });
+       request->send(200, "application/json", datas); });
 
     // server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
     //     digitalWrite(led, HIGH);

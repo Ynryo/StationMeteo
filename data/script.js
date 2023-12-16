@@ -16,6 +16,10 @@ setInterval(function getData(){
     xhttp.send()
 }, 1000)
 
+function analyseData(input, output) {
+    
+}
+
 // function onClick() {
 //     var xhttp = new XMLHttpRequest()
 //     xhttp.open("GET", "on", true)
