@@ -32,6 +32,10 @@ function chartBrightness(bright) {
             layout: {
                 padding: 20
             },
+            // tooltips: {
+            //     enabled: false  -- Disable Tooltips
+            // },
+            events: [],  // Disable all interactions with mouse (clicks, hovers)
             scales: {
                 yAxes: [{
                     scaleLabel: {
@@ -40,7 +44,8 @@ function chartBrightness(bright) {
                     },
                     ticks: {
                         beginAtZero: true
-                    }
+                    },
+                    // max: 200000
                 }],
                 xAxes: [{
                     scaleLabel: {
@@ -93,6 +98,7 @@ function chartWind(speed, orientation) {
             layout: {
                 padding: 20
             },
+            events: [],
             scales: {
                 yAxes: [{
                     scaleLabel: {
