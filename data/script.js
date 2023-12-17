@@ -44,8 +44,7 @@ function chartBrightness(bright) {
                     },
                     ticks: {
                         beginAtZero: true
-                    },
-                    // max: 200000
+                    }
                 }],
                 xAxes: [{
                     scaleLabel: {
