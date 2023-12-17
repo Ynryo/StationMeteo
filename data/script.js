@@ -54,7 +54,7 @@ function chartBrightness(bright) {
                 }]
             }
         }
-    });
+    })
 }
 
 function chartWind(speed, orientation) {
@@ -116,7 +116,7 @@ function chartWind(speed, orientation) {
                 }]
             }
         }
-    });
+    })
 }
 
 setInterval(function getData() {
