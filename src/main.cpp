@@ -38,7 +38,7 @@ void setup()
     //--------------------SPIFFS
     if (!SPIFFS.begin(true))
     {
-        Serial.println("Erreur SPIFFS");
+        Serial.println("SPIFFS error");
         return;
     }
 
@@ -47,7 +47,7 @@ void setup()
 
     while (file)
     {
-        Serial.print("Fichier : ");
+        Serial.print("File: ");
         Serial.println(file.name());
         file.close();
         file = root.openNextFile();
@@ -55,7 +55,7 @@ void setup()
 
     //--------------------WIFI
     WiFi.begin(ssid, password);
-    Serial.print("Tentative de connexion...");
+    Serial.print("Waiting for connection...");
 
     while (WiFi.status() != WL_CONNECTED)
     {
@@ -63,9 +63,9 @@ void setup()
         delay(100);
     }
 
-    Serial.println("\n");
-    Serial.println("Connexion etablie!");
-    Serial.print("Adresse IP: ");
+    Serial.print("\n");
+    Serial.println("Connected");
+    Serial.print("IP adress: ");
     Serial.println(WiFi.localIP());
 
     //--------------------SERVER
@@ -99,7 +99,7 @@ void setup()
     // });
 
     server.begin();
-    Serial.println("Serveur activé");
+    Serial.println("Server on");
 }
 
 void loop()
