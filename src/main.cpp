@@ -80,9 +80,15 @@ void setup()
 
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        String datas = "{\"brightness\":" + String(digitalRead(luminositySensor)) + 
-        ",\"windSpeed\":" + String(digitalRead(windSpeedSensor)) + 
-        ",\"windDirection\":" + String(digitalRead(windDirectionSensor)) + 
+        // String datas = "{\"brightness\":" + String(digitalRead(luminositySensor)) + 
+        // ",\"windSpeed\":" + String(digitalRead(windSpeedSensor)) + 
+        // ",\"windDirection\":" + String(digitalRead(windDirectionSensor)) + 
+        // ",\"temperature\":" + String(digitalRead(temperatureSensor)) + 
+        // ",\"humidity\":" + String(digitalRead(humiditySensor)) + 
+        // "}";
+        String datas = "{\"brightness\":" + String(random(200000)) + 
+        ",\"windSpeed\":" + String(random(200)) + 
+        ",\"windDirection\":" + String(random(360)) + 
         ",\"temperature\":" + String(digitalRead(temperatureSensor)) + 
         ",\"humidity\":" + String(digitalRead(humiditySensor)) + 
         "}";
