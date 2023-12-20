@@ -2,18 +2,23 @@
 #include <ESPAsyncWebServer.h>
 #include <SPIFFS.h>
 #include <WiFi.h>
+#include <Adafruit_Sensor.h>
+#include <DHT.h>
+#include <DHT_U.h>
 
-const char *ssid = "Freebox-A05C1B";
-const char *password = "kzvzbq2tdbq6rttrqh6f35";
-// const char *ssid = "TP-Link_FC6C";
-// const char *password = "03798966";
+// const char *ssid = "Freebox-A05C1B";
+// const char *password = "kzvzbq2tdbq6rttrqh6f35";
+const char *ssid = "TP-Link_FC6C";
+const char *password = "03798966";
 
 // const int led = 2;
-const int luminositySensor = 13;
+const int luminositySensor = 34;
 const int windSpeedSensor = 12;
 const int windDirectionSensor = 14;
-const int temperatureSensor = 27;
-const int humiditySensor = 26;
+const int temperatureSensor = 33;
+// const int humiditySensor = 26;
+
+DHT dht(temperatureSensor, DHT22);
 
 AsyncWebServer server(80);
 
@@ -32,8 +37,9 @@ void setup()
     pinMode(luminositySensor, INPUT);
     pinMode(windSpeedSensor, INPUT);
     pinMode(windDirectionSensor, INPUT);
-    pinMode(temperatureSensor, INPUT);
-    pinMode(humiditySensor, INPUT);
+    // pinMode(temperatureSensor, INPUT);
+    // pinMode(humiditySensor, INPUT);
+    dht.begin();
 
     //--------------------SPIFFS
     if (!SPIFFS.begin(true))
@@ -80,29 +86,20 @@ void setup()
 
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        // String datas = "{\"brightness\":" + String(digitalRead(luminositySensor)) + 
-        // ",\"windSpeed\":" + String(digitalRead(windSpeedSensor)) + 
-        // ",\"windDirection\":" + String(digitalRead(windDirectionSensor)) + 
+        String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
+        ",\"windSpeed\":" + String(digitalRead(windSpeedSensor)) + 
+        ",\"windDirection\":" + String(digitalRead(windDirectionSensor)) + 
+        ",\"temperature\":" + float(dht.readTemperature()) + 
+        ",\"humidity\":" + float(dht.readHumidity()) + 
+        "}";
+        Serial.println(dht.readTemperature());
+        // String datas = "{\"brightness\":" + String(random(200000)) + 
+        // ",\"windSpeed\":" + String(random(200)) + 
+        // ",\"windDirection\":" + String(random(360)) + 
         // ",\"temperature\":" + String(digitalRead(temperatureSensor)) + 
         // ",\"humidity\":" + String(digitalRead(humiditySensor)) + 
         // "}";
-        String datas = "{\"brightness\":" + String(random(200000)) + 
-        ",\"windSpeed\":" + String(random(200)) + 
-        ",\"windDirection\":" + String(random(360)) + 
-        ",\"temperature\":" + String(digitalRead(temperatureSensor)) + 
-        ",\"humidity\":" + String(digitalRead(humiditySensor)) + 
-        "}";
        request->send(200, "application/json", datas); });
-
-    // server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
-    //     digitalWrite(led, HIGH);
-    //     request->send(200);
-    // });
-
-    // server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
-    //     digitalWrite(led, LOW);
-    //     request->send(200);
-    // });
 
     server.begin();
     Serial.println("Server on");
@@ -110,4 +107,6 @@ void setup()
 
 void loop()
 {
+    float tauxHumidite = dht.readHumidity();              // Lecture du taux d'humidité (en %)
+    float temperatureEnCelsius = dht.readTemperature();   // Lecture de la température, exprimée en degrés Celsius
 }

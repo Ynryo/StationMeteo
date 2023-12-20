@@ -1,7 +1,7 @@
 const brightness = new Array()
 const windSpeed = new Array()
 const windDirection = new Array()
-const temperature = new Array()
+const temperatureValue = new Array()
 const humidity = new Array()
 
 function chartBrightness(bright) {
@@ -119,6 +119,59 @@ function chartWind(speed, orientation) {
     })
 }
 
+function chartTemperature(temp) {
+    temperature = document.getElementById('temperatureChart').getContext('2d')
+    const xValues = ["1 heure", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
+    function temperatureData() {
+        if (temperatureValue.length >= xValues.length) {
+            temperatureValue.shift()
+        }
+        temperatureValue.push(temp)
+        return temperatureValue
+    }
+    const luminosityChart = new Chart(temperature, {
+        type: "line",
+        data: {
+            labels: xValues,
+            datasets: [{
+                label: 'Température',
+                data: temperatureData(),
+                fill: true,
+                borderColor: "red"
+            }]
+        },
+        options: {
+            animation: {
+                duration: 0
+            },
+            layout: {
+                padding: 20
+            },
+            // tooltips: {
+            //     enabled: false  -- Disable Tooltips
+            // },
+            events: [],  // Disable all interactions with mouse (clicks, hovers)
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Température (°C)'
+                    },
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Temps (minutes)'
+                    }
+                }]
+            }
+        }
+    })
+}
+
 setInterval(function getData() {
     var xhttp = new XMLHttpRequest()
     xhttp.onreadystatechange = function () {
@@ -126,7 +179,7 @@ setInterval(function getData() {
             const datas = JSON.parse(this.responseText)
             chartBrightness(datas.brightness)
             chartWind(datas.windSpeed, datas.windDirection)
-            document.getElementById("temperature").innerHTML = datas.temperature
+            chartTemperature(datas.temperature)
             document.getElementById("humidity").innerHTML = datas.humidity
         }
     }

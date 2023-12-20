@@ -53,3 +53,22 @@
 <!-- <p class="w3-xxlarge"><span id="windDirection">0</span> °</p> -->
 
 https://www.chartjs.org/docs/latest/developers/updates.html
+
+Install python on linux
+sudo apt install python3-venv
+
+sudo gpasswd --add ${USER} dialout
+sudo chmod a+rw /dev/ttyUSB0
+
+https://arduino.stackexchange.com/questions/84888/analog-read-not-working-while-using-wifi
+
+
+// server.on("/on", HTTP_GET, [](AsyncWebServerRequest *request){
+    //     digitalWrite(led, HIGH);
+    //     request->send(200);
+    // });
+
+    // server.on("/off", HTTP_GET, [](AsyncWebServerRequest *request){
+    //     digitalWrite(led, LOW);
+    //     request->send(200);
+    // });
