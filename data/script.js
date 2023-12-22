@@ -42,9 +42,9 @@ function chartBrightness(bright) {
                         display: true,
                         labelString: 'Luminosité (lux)'
                     },
-                    ticks: {
-                        beginAtZero: true
-                    }
+                    // ticks: {
+                    //     beginAtZero: true
+                    // }
                 }],
                 xAxes: [{
                     scaleLabel: {
@@ -104,9 +104,9 @@ function chartWind(speed, orientation) {
                         display: true,
                         labelString: 'Vitesse (km/h)'
                     },
-                    ticks: {
-                        beginAtZero: true
-                    }
+                    // ticks: {
+                    //     beginAtZero: true
+                    // }
                 }],
                 xAxes: [{
                     scaleLabel: {
@@ -157,9 +157,9 @@ function chartTemperature(temp) {
                         display: true,
                         labelString: 'Température (°C)'
                     },
-                    ticks: {
-                        beginAtZero: true
-                    }
+                    // ticks: {
+                    //     beginAtZero: true
+                    // }
                 }],
                 xAxes: [{
                     scaleLabel: {
