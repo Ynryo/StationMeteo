@@ -81,6 +81,9 @@ void setup()
     server.on("/w3.css", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/w3.css", "text/css"); });
 
+    server.on("/w3.css", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(SPIFFS, "/styles.css", "text/css"); });
+
     server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/script.js", "text/javascript"); });
 
