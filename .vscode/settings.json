@@ -3,5 +3,6 @@
     "files.associations": {
         "*.embeddedhtml": "html",
         "fstream": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": true
 }

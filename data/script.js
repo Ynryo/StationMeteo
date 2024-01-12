@@ -7,6 +7,7 @@ const humidity = new Array()
 function chartBrightness(bright) {
     luminosity = document.getElementById('luminosityChart').getContext('2d')
     const xValues = ["1 heure", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
+    // const xValues = ["60 secondes", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
     function brightnessData() {
         if (brightness.length >= xValues.length) {
             brightness.shift()
@@ -42,9 +43,9 @@ function chartBrightness(bright) {
                         display: true,
                         labelString: 'Luminosité (lux)'
                     },
-                    // ticks: {
-                    //     beginAtZero: true
-                    // }
+                    ticks: {
+                        beginAtZero: true
+                    }
                 }],
                 xAxes: [{
                     scaleLabel: {
@@ -104,9 +105,9 @@ function chartWind(speed, orientation) {
                         display: true,
                         labelString: 'Vitesse (km/h)'
                     },
-                    // ticks: {
-                    //     beginAtZero: true
-                    // }
+                    ticks: {
+                        beginAtZero: true
+                    }
                 }],
                 xAxes: [{
                     scaleLabel: {
@@ -157,9 +158,9 @@ function chartTemperature(temp) {
                         display: true,
                         labelString: 'Température (°C)'
                     },
-                    // ticks: {
-                    //     beginAtZero: true
-                    // }
+                    ticks: {
+                        beginAtZero: true
+                    }
                 }],
                 xAxes: [{
                     scaleLabel: {
@@ -178,8 +179,10 @@ setInterval(function getData() {
         if (this.readyState == 4 && this.status == 200) {
             const datas = JSON.parse(this.responseText)
             chartBrightness(datas.brightness)
+            document.getElementById("temperature").innerHTML = datas.brightness
             chartWind(datas.windSpeed, datas.windDirection)
             chartTemperature(datas.temperature)
+            document.getElementById("temperature").innerHTML = datas.temperature
             document.getElementById("humidity").innerHTML = datas.humidity
         }
     }

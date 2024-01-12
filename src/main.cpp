@@ -18,6 +18,9 @@ const int windDirectionSensor = 14;
 const int temperatureSensor = 33;
 // const int humiditySensor = 26;
 
+const int windDirectionInt = 0;
+const char* windDirectionText = "none";
+
 DHT dht(temperatureSensor, DHT22);
 
 AsyncWebServer server(80);
@@ -91,7 +94,8 @@ void setup()
               {
         String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
         ",\"windSpeed\":" + String(digitalRead(windSpeedSensor)) + 
-        ",\"windDirection\":" + String(digitalRead(windDirectionSensor)) + 
+        ",\"windDirectionText\":\"" + windDirectionText + 
+        "\",\"windDirectionInt\":" + String(windDirectionInt) + 
         ",\"temperature\":" + float(dht.readTemperature()) + 
         ",\"humidity\":" + float(dht.readHumidity()) + 
         "}";
