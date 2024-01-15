@@ -8,18 +8,21 @@
 
 // const char *ssid = "Freebox-A05C1B";
 // const char *password = "kzvzbq2tdbq6rttrqh6f35";
+// const char *ssid = "Ynryo's Private Network";
+// const char *password = "SecurePassword";
 const char *ssid = "TP-Link_FC6C";
 const char *password = "03798966";
 
-// const int led = 2;
+// int led = 2;
 const int luminositySensor = 34;
 const int windSpeedSensor = 12;
 const int windDirectionSensor = 14;
 const int temperatureSensor = 33;
 // const int humiditySensor = 26;
 
-const int windDirectionInt = 0;
-const char* windDirectionText = "none";
+int windVitesse;
+int windDirectionInt = 0;
+char *windDirectionText = "none";
 
 DHT dht(temperatureSensor, DHT22);
 
@@ -80,11 +83,14 @@ void setup()
     //--------------------SERVER
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/index.html", "text/html"); });
+    server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(SPIFFS, "/index.html", "text/html"); });
+    server.on("/old.html", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(SPIFFS, "/old.html", "text/html"); });
 
     server.on("/w3.css", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/w3.css", "text/css"); });
-
-    server.on("/w3.css", HTTP_GET, [](AsyncWebServerRequest *request)
+    server.on("/styles.css", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/styles.css", "text/css"); });
 
     server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -114,6 +120,69 @@ void setup()
 
 void loop()
 {
-    float tauxHumidite = dht.readHumidity();              // Lecture du taux d'humidité (en %)
-    float temperatureEnCelsius = dht.readTemperature();   // Lecture de la température, exprimée en degrés Celsius
+    float tauxHumidite = dht.readHumidity();            // Lecture du taux d'humidité (en %)
+    float temperatureEnCelsius = dht.readTemperature(); // Lecture de la température, exprimée en degrés Celsius
+    // windVitesse = random(30, 70);
+    // windDirectionInt = random(0, 360);
+    // delay(1000);
+
+    // windVitesse = windVitesse + random(-2, 3);
+    // windDirectionInt = windDirectionInt + random(-2, 3);
+    // Serial.print(windVitesse);
+    // Serial.println("km/h");
+    // Serial.print(" ");
+    // delay(1000);
+    // if (windVitesse < 10)
+    // {
+    //     windVitesse = windVitesse + 3;
+    // }
+    // if (windVitesse > 90)
+    // {
+    //     windVitesse = windVitesse - 3;
+    // }
+    // if (windDirectionInt < 10)
+    // {
+    //     windVitesse = windVitesse + 3;
+    // }
+    // if (windVitesse > 90)
+    // {
+    //     windVitesse = windVitesse - 3;
+    // }
+
+    // if (windDirectionInt > 337.5 && windDirectionInt < 360)
+    // {
+    //     windDirectionText = "Nord";
+    // }
+    // else if (windDirectionInt > 0 && windDirectionInt < 22.5)
+    // {
+    //     windDirectionText = "Nord";
+    // }
+    // else if (windDirectionInt > 22.5 && windDirectionInt < 67.5)
+    // {
+    //     windDirectionText = "Nord-Est";
+    // }
+    // else if (windDirectionInt > 67.5 && windDirectionInt < 112.5)
+    // {
+    //     windDirectionText = "Est";
+    // }
+    // else if (windDirectionInt > 112.5 && windDirectionInt < 157.5)
+    // {
+    //     windDirectionText = "Sud-Est";
+    // }
+    // else if (windDirectionInt > 157.5 && windDirectionInt < 202.5)
+    // {
+    //     windDirectionText = "Sud";
+    // }
+    // else if (windDirectionInt > 202.5 && windDirectionInt < 247.5)
+    // {
+    //     windDirectionText = "Sud-Ouest";
+    // }
+    // else if (windDirectionInt > 247.5 && windDirectionInt < 292.5)
+    // {
+    //     windDirectionText = "Ouest";
+    // }
+    // else if (windDirectionInt > 292.5 && windDirectionInt < 337.5)
+    // {
+    //     windDirectionText = "Nord-Ouest";
+    // }
 }

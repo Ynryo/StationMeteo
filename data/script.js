@@ -4,9 +4,18 @@ const windDirection = new Array()
 const temperatureValue = new Array()
 const humidity = new Array()
 
+currentXValue = 60
+const xValues = []
+while (currentXValue != 0) {
+    xValues.push(currentXValue + " secondes");
+    currentXValue = currentXValue - 1
+}
+xValues.push("Maintenant");
+console.log(xValues)
+
 function chartBrightness(bright) {
     luminosity = document.getElementById('luminosityChart').getContext('2d')
-    const xValues = ["1 heure", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
+    // xValues = ["1 heure", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
     // const xValues = ["60 secondes", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
     function brightnessData() {
         if (brightness.length >= xValues.length) {
@@ -60,7 +69,7 @@ function chartBrightness(bright) {
 
 function chartWind(speed, orientation) {
     wind = document.getElementById('windChart').getContext('2d')
-    const xValues = ["1 heure", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
+    // xValues = ["1 heure", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
     function windSpeedData() {
         if (windSpeed.length >= xValues.length) {
             windSpeed.shift()
@@ -122,7 +131,7 @@ function chartWind(speed, orientation) {
 
 function chartTemperature(temp) {
     temperature = document.getElementById('temperatureChart').getContext('2d')
-    const xValues = ["1 heure", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
+    // xValues = ["1 heure", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
     function temperatureData() {
         if (temperatureValue.length >= xValues.length) {
             temperatureValue.shift()
@@ -178,11 +187,11 @@ setInterval(function getData() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const datas = JSON.parse(this.responseText)
-            chartBrightness(datas.brightness)
-            document.getElementById("temperature").innerHTML = datas.brightness
-            chartWind(datas.windSpeed, datas.windDirection)
+            // chartBrightness(datas.brightness)
+            document.getElementById("brightness").innerHTML = datas.brightness
+            // chartWind(datas.windSpeed, datas.windDirection)
             chartTemperature(datas.temperature)
-            document.getElementById("temperature").innerHTML = datas.temperature
+            // document.getElementById("temperature").innerHTML = datas.temperature
             document.getElementById("humidity").innerHTML = datas.humidity
         }
     }
