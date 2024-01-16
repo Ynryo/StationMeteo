@@ -4,9 +4,9 @@ const windDirection = new Array()
 const temperatureValue = new Array()
 const humidity = new Array()
 
+const xValues = ['60 secondes', '', '', '', '', '55 secondes', '', '', '', '', '50 secondes', '', '', '', '', '45 secondes', '', '', '', '', '40 secondes', '', '', '', '', '35 secondes', '', '', '', '', '30 secondes', '', '', '', '', '25 secondes', '', '', '', '', '20 secondes', '', '', '', '', '15 secondes', '', '', '', '', '10 secondes', '', '', '', '', '5 secondes', '', '', '', '', 'Maintenant']
 function createXValuesArray() {
     currentXValue = 60
-    const xValues = []
     while (currentXValue != 0) {
         xValues.push(currentXValue + " secondes");
         currentXValue = currentXValue - 1
@@ -14,6 +14,8 @@ function createXValuesArray() {
     xValues.push("Maintenant");
     console.log(xValues)
 }
+
+// createXValuesArray()
 
 function chartBrightness(bright) {
     luminosity = document.getElementById('luminosityChart').getContext('2d')
@@ -189,10 +191,12 @@ setInterval(function getData() {
         if (this.readyState == 4 && this.status == 200) {
             const datas = JSON.parse(this.responseText)
             // chartBrightness(datas.brightness)
-            document.getElementById("brightness").innerHTML = datas.brightness
             // chartWind(datas.windSpeed, datas.windDirection)
             chartTemperature(datas.temperature)
-            // document.getElementById("temperature").innerHTML = datas.temperature
+            document.getElementById("temperature").innerHTML = datas.temperature
+            document.getElementById("brightness").innerHTML = datas.brightness
+            document.getElementById("wind-speed").innerHTML = datas.windSpeed
+            document.getElementById("wind-direction").innerHTML = datas.windDirectionInt
             document.getElementById("humidity").innerHTML = datas.humidity
         }
     }

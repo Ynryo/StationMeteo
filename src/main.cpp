@@ -6,12 +6,12 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-// const char *ssid = "Freebox-A05C1B";
-// const char *password = "kzvzbq2tdbq6rttrqh6f35";
+const char *ssid = "Freebox-A05C1B";
+const char *password = "kzvzbq2tdbq6rttrqh6f35";
 // const char *ssid = "Ynryo's Private Network";
 // const char *password = "SecurePassword";
-const char *ssid = "TP-Link_FC6C";
-const char *password = "03798966";
+// const char *ssid = "TP-Link_FC6C";
+// const char *password = "03798966";
 
 // int led = 2;
 const int luminositySensor = 34;
@@ -22,7 +22,7 @@ const int temperatureSensor = 33;
 
 int windVitesse;
 int windDirectionInt = 0;
-char *windDirectionText = "none";
+String windDirectionText = "none";
 
 DHT dht(temperatureSensor, DHT22);
 
@@ -98,20 +98,21 @@ void setup()
 
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
-        ",\"windSpeed\":" + String(digitalRead(windSpeedSensor)) + 
+        // String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
+        // ",\"windSpeed\":" + String(digitalRead(windSpeedSensor)) + 
+        // ",\"windDirectionText\":\"" + windDirectionText + 
+        // "\",\"windDirectionInt\":" + String(windDirectionInt) + 
+        // ",\"temperature\":" + float(dht.readTemperature()) + 
+        // ",\"humidity\":" + float(dht.readHumidity()) + 
+        // "}";
+        String datas = "{\"brightness\":" + String(random(100000)) + 
+        ",\"windSpeed\":" + String(random(150)) + 
         ",\"windDirectionText\":\"" + windDirectionText + 
-        "\",\"windDirectionInt\":" + String(windDirectionInt) + 
-        ",\"temperature\":" + float(dht.readTemperature()) + 
-        ",\"humidity\":" + float(dht.readHumidity()) + 
+        "\",\"windDirectionInt\":" + windDirectionInt + 
+        ",\"temperature\":" + String(random(30)) + 
+        ",\"humidity\":" + String(random(100)) + 
         "}";
         Serial.println(dht.readTemperature());
-        // String datas = "{\"brightness\":" + String(random(200000)) + 
-        // ",\"windSpeed\":" + String(random(200)) + 
-        // ",\"windDirection\":" + String(random(360)) + 
-        // ",\"temperature\":" + String(digitalRead(temperatureSensor)) + 
-        // ",\"humidity\":" + String(digitalRead(humiditySensor)) + 
-        // "}";
        request->send(200, "application/json", datas); });
 
     server.begin();
@@ -122,67 +123,67 @@ void loop()
 {
     float tauxHumidite = dht.readHumidity();            // Lecture du taux d'humidité (en %)
     float temperatureEnCelsius = dht.readTemperature(); // Lecture de la température, exprimée en degrés Celsius
-    // windVitesse = random(30, 70);
-    // windDirectionInt = random(0, 360);
-    // delay(1000);
+    windVitesse = random(30, 70);
+    windDirectionInt = random(0, 360);
+    delay(1000);
 
-    // windVitesse = windVitesse + random(-2, 3);
-    // windDirectionInt = windDirectionInt + random(-2, 3);
+    windVitesse = windVitesse + random(-2, 3);
+    windDirectionInt = windDirectionInt + random(-2, 3);
     // Serial.print(windVitesse);
     // Serial.println("km/h");
     // Serial.print(" ");
-    // delay(1000);
-    // if (windVitesse < 10)
-    // {
-    //     windVitesse = windVitesse + 3;
-    // }
-    // if (windVitesse > 90)
-    // {
-    //     windVitesse = windVitesse - 3;
-    // }
-    // if (windDirectionInt < 10)
-    // {
-    //     windVitesse = windVitesse + 3;
-    // }
-    // if (windVitesse > 90)
-    // {
-    //     windVitesse = windVitesse - 3;
-    // }
+    delay(1000);
+    if (windVitesse < 10)
+    {
+        windVitesse = windVitesse + 3;
+    }
+    if (windVitesse > 90)
+    {
+        windVitesse = windVitesse - 3;
+    }
+    if (windDirectionInt < 10)
+    {
+        windVitesse = windVitesse + 3;
+    }
+    if (windVitesse > 90)
+    {
+        windVitesse = windVitesse - 3;
+    }
 
-    // if (windDirectionInt > 337.5 && windDirectionInt < 360)
-    // {
-    //     windDirectionText = "Nord";
-    // }
-    // else if (windDirectionInt > 0 && windDirectionInt < 22.5)
-    // {
-    //     windDirectionText = "Nord";
-    // }
-    // else if (windDirectionInt > 22.5 && windDirectionInt < 67.5)
-    // {
-    //     windDirectionText = "Nord-Est";
-    // }
-    // else if (windDirectionInt > 67.5 && windDirectionInt < 112.5)
-    // {
-    //     windDirectionText = "Est";
-    // }
-    // else if (windDirectionInt > 112.5 && windDirectionInt < 157.5)
-    // {
-    //     windDirectionText = "Sud-Est";
-    // }
-    // else if (windDirectionInt > 157.5 && windDirectionInt < 202.5)
-    // {
-    //     windDirectionText = "Sud";
-    // }
-    // else if (windDirectionInt > 202.5 && windDirectionInt < 247.5)
-    // {
-    //     windDirectionText = "Sud-Ouest";
-    // }
-    // else if (windDirectionInt > 247.5 && windDirectionInt < 292.5)
-    // {
-    //     windDirectionText = "Ouest";
-    // }
-    // else if (windDirectionInt > 292.5 && windDirectionInt < 337.5)
-    // {
-    //     windDirectionText = "Nord-Ouest";
-    // }
+    if (windDirectionInt > 337.5 && windDirectionInt < 360)
+    {
+        windDirectionText = "Nord";
+    }
+    else if (windDirectionInt > 0 && windDirectionInt < 22.5)
+    {
+        windDirectionText = "Nord";
+    }
+    else if (windDirectionInt > 22.5 && windDirectionInt < 67.5)
+    {
+        windDirectionText = "Nord-Est";
+    }
+    else if (windDirectionInt > 67.5 && windDirectionInt < 112.5)
+    {
+        windDirectionText = "Est";
+    }
+    else if (windDirectionInt > 112.5 && windDirectionInt < 157.5)
+    {
+        windDirectionText = "Sud-Est";
+    }
+    else if (windDirectionInt > 157.5 && windDirectionInt < 202.5)
+    {
+        windDirectionText = "Sud";
+    }
+    else if (windDirectionInt > 202.5 && windDirectionInt < 247.5)
+    {
+        windDirectionText = "Sud-Ouest";
+    }
+    else if (windDirectionInt > 247.5 && windDirectionInt < 292.5)
+    {
+        windDirectionText = "Ouest";
+    }
+    else if (windDirectionInt > 292.5 && windDirectionInt < 337.5)
+    {
+        windDirectionText = "Nord-Ouest";
+    }
 }
