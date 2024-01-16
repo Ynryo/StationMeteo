@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono&display=swap');
+
 body {
     margin: 0;
     padding: 0;
@@ -6,6 +8,7 @@ body {
     overflow-y: hidden;
     display: flex;
     flex-direction: column;
+    background-color: #e0e0e0;
 }
 
 header {
@@ -17,7 +20,9 @@ header {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
+
 header h1 {
     margin: 10px 0;
 }
@@ -31,11 +36,55 @@ header h1 {
 
 .main .side {
     display: flex;
+    flex-wrap: nowrap;
     flex-direction: column;
-    width: 300px;
+    max-width: 250px;
+    width: 100%;
     padding: 10px;
+    box-sizing: border-box;
+}
+
+.main .side-box {
+    margin: 10px 0;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background: #e0e0e0;
+    box-shadow: 10px 10px 20px #bebebe,
+        -10px -10px 20px #ffffff;
+}
+
+.main .side-box .values {
+    font-family: 'Space Mono', monospace !important;
+    font-size: 40px;
 }
 
 .main .main-graph {
     width: 100%;
+    flex: 1;
+    padding: 10px;
+}
+
+.main-graph div {
+    height: 100%;
+    margin: 10px 0;
+    border-radius: 20px;
+    background: #e0e0e0;
+    box-shadow: 10px 10px 20px #bebebe,
+        -10px -10px 20px #ffffff;
+}
+
+@media all and (max-width: 600px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .main .side {
+        max-width: none;
+        flex-wrap: wrap;
+    }
+    
 }
