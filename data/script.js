@@ -4,19 +4,20 @@ const windDirection = new Array()
 const temperatureValue = new Array()
 const humidity = new Array()
 
-currentXValue = 60
-const xValues = []
-while (currentXValue != 0) {
-    xValues.push(currentXValue + " secondes");
-    currentXValue = currentXValue - 1
+function createXValuesArray() {
+    currentXValue = 60
+    const xValues = []
+    while (currentXValue != 0) {
+        xValues.push(currentXValue + " secondes");
+        currentXValue = currentXValue - 1
+    }
+    xValues.push("Maintenant");
+    console.log(xValues)
 }
-xValues.push("Maintenant");
-console.log(xValues)
 
 function chartBrightness(bright) {
     luminosity = document.getElementById('luminosityChart').getContext('2d')
     // xValues = ["1 heure", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
-    // const xValues = ["60 secondes", "55 minutes", "50 minutes", "45 minutes", "40 minutes", "35 minutes", "30 minutes", "25 minutes", "20 minutes", "15 minutes", "10 minutes", "05 minutes", "Maintenant"];
     function brightnessData() {
         if (brightness.length >= xValues.length) {
             brightness.shift()
