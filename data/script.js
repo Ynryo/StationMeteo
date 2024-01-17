@@ -96,12 +96,14 @@ function chartWind(speed, orientation) {
                 data: windSpeedData(),
                 fill: true,
                 borderColor: "lightGreen"
-            }, {
-                label: 'Orientation',
-                data: windDirectionData(),
-                fill: true,
-                borderColor: "green"
-            }]
+            }
+            // , {
+            //     label: 'Orientation',
+            //     data: windDirectionData(),
+            //     fill: true,
+            //     borderColor: "green"
+            // }
+        ]
         },
         options: {
             animation: {
@@ -192,7 +194,7 @@ setInterval(function getData() {
             const datas = JSON.parse(this.responseText)
             // chartBrightness(datas.brightness)
             // chartWind(datas.windSpeed, datas.windDirection)
-            chartTemperature(datas.temperature)
+            chartWind(datas.windSpeed, datas.windDirectionInt)
             document.getElementById("temperature").innerHTML = datas.temperature
             document.getElementById("brightness").innerHTML = datas.brightness
             document.getElementById("wind-speed").innerHTML = datas.windSpeed

@@ -6,20 +6,21 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-// const char *ssid = "Freebox-A05C1B";
-// const char *password = "kzvzbq2tdbq6rttrqh6f35";
+const char *ssid = "Freebox-A05C1B";
+const char *password = "kzvzbq2tdbq6rttrqh6f35";
 // const char *ssid = "Ynryo's Private Network";
 // const char *password = "SecurePassword";
-const char *ssid = "TP-Link_FC6C";
-const char *password = "03798966";
+// const char *ssid = "TP-Link_FC6C";
+// const char *password = "03798966";
 
 // int led = 2;
 const int luminositySensor = 34;
 const int windSpeedSensor = 12;
 const int windDirectionSensor = 14;
-const int temperatureSensor = 33; //temperature and humidity in the same sensor
+const int temperatureSensor = 33; // temperature and humidity in the same sensor
 
-int windVitesse;
+int windSpeed;
+int windSpeedPhase;
 int windDirectionInt = 0;
 String windDirectionText = "none";
 
@@ -93,55 +94,38 @@ void setup()
 
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
-        ",\"windSpeed\":" + windVitesse + 
-        ",\"windDirectionText\":\"" + windDirectionText + 
-        "\",\"windDirectionInt\":" + String(windDirectionInt) + 
-        ",\"temperature\":" + float(dht.readTemperature()) + 
-        ",\"humidity\":" + float(dht.readHumidity()) + 
-        "}";
-        // String datas = "{\"brightness\":" + String(random(100000)) + 
-        // ",\"windSpeed\":" + String(random(150)) + 
+        // String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
+        // ",\"windSpeed\":" + windSpeed + 
         // ",\"windDirectionText\":\"" + windDirectionText + 
-        // "\",\"windDirectionInt\":" + windDirectionInt + 
-        // ",\"temperature\":" + String(random(30)) + 
-        // ",\"humidity\":" + String(random(100)) + 
+        // "\",\"windDirectionInt\":" + String(windDirectionInt) + 
+        // ",\"temperature\":" + float(dht.readTemperature()) + 
+        // ",\"humidity\":" + float(dht.readHumidity()) + 
         // "}";
+        String datas = "{\"brightness\":" + String(random(100000)) + 
+        ",\"windSpeed\":" + windSpeed + 
+        ",\"windDirectionText\":\"" + windDirectionText + 
+        "\",\"windDirectionInt\":" + windDirectionInt + 
+        ",\"temperature\":" + String(random(30)) + 
+        ",\"humidity\":" + String(random(100)) + 
+        "}";
        request->send(200, "application/json", datas); });
 
     server.begin();
     Serial.println("Server on");
 }
 
-void loop()
+void windDirectionIntToText()
 {
-    float tauxHumidite = dht.readHumidity();            // Lecture du taux d'humidité (en %)
-    float temperatureEnCelsius = dht.readTemperature(); // Lecture de la température, exprimée en degrés Celsius
-    windVitesse = random(30, 70);
     windDirectionInt = random(0, 360);
-    delay(1000);
-
-    windVitesse = windVitesse + random(-2, 3);
-    windDirectionInt = windDirectionInt + random(-2, 3);
-    delay(1000);
-    if (windVitesse < 10) //simulateur vitesse
+    if (windDirectionInt < 2)
     {
-        windVitesse = windVitesse + 3;
+        windDirectionInt = windDirectionInt + 3;
     }
-    if (windVitesse > 90)
+    if (windDirectionInt > 358)
     {
-        windVitesse = windVitesse - 3;
+        windDirectionInt = windDirectionInt - 3;
     }
-    if (windDirectionInt < 10)
-    {
-        windVitesse = windVitesse + 3;
-    }
-    if (windVitesse > 90)
-    {
-        windVitesse = windVitesse - 3;
-    }
-
-    if (windDirectionInt > 337.5 && windDirectionInt < 360) //convertisseur angle en ° en text
+    if (windDirectionInt > 337.5 && windDirectionInt < 360) // convertisseur angle en ° en text
     {
         windDirectionText = "Nord";
     }
@@ -178,3 +162,90 @@ void loop()
         windDirectionText = "Nord-Ouest";
     }
 }
+
+void loop()
+{
+    float tauxHumidite = dht.readHumidity();            // Lecture du taux d'humidité (en %)
+    float temperatureEnCelsius = dht.readTemperature(); // Lecture de la température, exprimée en degrés Celsius
+    // simulateur vitesse
+    windSpeedPhase = random(1, 4);
+    Serial.print("Phase : ");
+    Serial.println(windSpeedPhase);
+    if (windSpeedPhase == 1) // vent calme
+    {
+        windSpeed = random(3, 35);
+        for (int loops = 1; loops < random(6, 16); loops++)
+        {
+            windSpeed = windSpeed + random(-2, 3);
+            if (windSpeed < 2)
+            {
+                windSpeed = windSpeed + 3;
+            }
+            if (windSpeed > 36)
+            {
+                windSpeed = windSpeed - 3;
+            }
+            Serial.println(windSpeed);
+            windDirectionIntToText();
+            delay(1000);
+        }
+    }
+    else if (windSpeedPhase == 2) // vent agité
+    {
+        windSpeed = random(35, 70);
+        for (int loops = 1; loops < random(6, 16); loops++)
+        {
+            windSpeed = windSpeed + random(-2, 3);
+            if (windSpeed < 34)
+            {
+                windSpeed = windSpeed + 3;
+            }
+            if (windSpeed > 71)
+            {
+                windSpeed = windSpeed - 3;
+            }
+            Serial.println(windSpeed);
+            windDirectionIntToText();
+            delay(1000);
+        }
+    }
+    else if (windSpeedPhase == 3) // tempète
+    {
+        windSpeed = random(70, 110);
+        for (int loops = 1; loops < random(6, 16); loops++)
+        {
+            windSpeed = windSpeed + random(-2, 3);
+            if (windSpeed < 69)
+            {
+                windSpeed = windSpeed + 3;
+            }
+            if (windSpeed > 111)
+            {
+                windSpeed = windSpeed - 3;
+            }
+            Serial.println(windSpeed);
+            windDirectionIntToText();
+            delay(1000);
+        }
+    }
+    else if (windSpeedPhase == 4)
+    {
+        windSpeed = random(110, 170);
+        for (int loops = 1; loops < random(6, 16); loops++)
+        {
+            windSpeed = windSpeed + random(-2, 3);
+            if (windSpeed < 109)
+            {
+                windSpeed = windSpeed + 3;
+            }
+            if (windSpeed > 171)
+            {
+                windSpeed = windSpeed - 3;
+            }
+            Serial.println(windSpeed);
+            windDirectionIntToText();
+            delay(1000);
+        }
+    }
+}
+
