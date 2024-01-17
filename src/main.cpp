@@ -6,19 +6,18 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-const char *ssid = "Freebox-A05C1B";
-const char *password = "kzvzbq2tdbq6rttrqh6f35";
+// const char *ssid = "Freebox-A05C1B";
+// const char *password = "kzvzbq2tdbq6rttrqh6f35";
 // const char *ssid = "Ynryo's Private Network";
 // const char *password = "SecurePassword";
-// const char *ssid = "TP-Link_FC6C";
-// const char *password = "03798966";
+const char *ssid = "TP-Link_FC6C";
+const char *password = "03798966";
 
 // int led = 2;
 const int luminositySensor = 34;
 const int windSpeedSensor = 12;
 const int windDirectionSensor = 14;
-const int temperatureSensor = 33;
-// const int humiditySensor = 26;
+const int temperatureSensor = 33; //temperature and humidity in the same sensor
 
 int windVitesse;
 int windDirectionInt = 0;
@@ -38,13 +37,9 @@ void setup()
     }
 
     //--------------------GPIO
-    // pinMode(led, OUTPUT);
-    // digitalWrite(led, LOW);
     pinMode(luminositySensor, INPUT);
     pinMode(windSpeedSensor, INPUT);
     pinMode(windDirectionSensor, INPUT);
-    // pinMode(temperatureSensor, INPUT);
-    // pinMode(humiditySensor, INPUT);
     dht.begin();
 
     //--------------------SPIFFS
@@ -98,21 +93,20 @@ void setup()
 
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        // String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
-        // ",\"windSpeed\":" + String(digitalRead(windSpeedSensor)) + 
-        // ",\"windDirectionText\":\"" + windDirectionText + 
-        // "\",\"windDirectionInt\":" + String(windDirectionInt) + 
-        // ",\"temperature\":" + float(dht.readTemperature()) + 
-        // ",\"humidity\":" + float(dht.readHumidity()) + 
-        // "}";
-        String datas = "{\"brightness\":" + String(random(100000)) + 
-        ",\"windSpeed\":" + String(random(150)) + 
+        String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
+        ",\"windSpeed\":" + windVitesse + 
         ",\"windDirectionText\":\"" + windDirectionText + 
-        "\",\"windDirectionInt\":" + windDirectionInt + 
-        ",\"temperature\":" + String(random(30)) + 
-        ",\"humidity\":" + String(random(100)) + 
+        "\",\"windDirectionInt\":" + String(windDirectionInt) + 
+        ",\"temperature\":" + float(dht.readTemperature()) + 
+        ",\"humidity\":" + float(dht.readHumidity()) + 
         "}";
-        Serial.println(dht.readTemperature());
+        // String datas = "{\"brightness\":" + String(random(100000)) + 
+        // ",\"windSpeed\":" + String(random(150)) + 
+        // ",\"windDirectionText\":\"" + windDirectionText + 
+        // "\",\"windDirectionInt\":" + windDirectionInt + 
+        // ",\"temperature\":" + String(random(30)) + 
+        // ",\"humidity\":" + String(random(100)) + 
+        // "}";
        request->send(200, "application/json", datas); });
 
     server.begin();
@@ -129,11 +123,8 @@ void loop()
 
     windVitesse = windVitesse + random(-2, 3);
     windDirectionInt = windDirectionInt + random(-2, 3);
-    // Serial.print(windVitesse);
-    // Serial.println("km/h");
-    // Serial.print(" ");
     delay(1000);
-    if (windVitesse < 10)
+    if (windVitesse < 10) //simulateur vitesse
     {
         windVitesse = windVitesse + 3;
     }
@@ -150,7 +141,7 @@ void loop()
         windVitesse = windVitesse - 3;
     }
 
-    if (windDirectionInt > 337.5 && windDirectionInt < 360)
+    if (windDirectionInt > 337.5 && windDirectionInt < 360) //convertisseur angle en ° en text
     {
         windDirectionText = "Nord";
     }

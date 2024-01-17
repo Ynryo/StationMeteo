@@ -5,8 +5,7 @@ body {
     padding: 0;
     width: 100%;
     font-family: 'Montserrat', sans-serif;
-    overflow-y: hidden;
-    display: flex;
+    /* overflow-y: hidden; */
     flex-direction: column;
     background-color: #e0e0e0;
 }
@@ -34,7 +33,7 @@ header h1 {
     height: 100%;
 }
 
-.main .side {
+.side {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
@@ -44,7 +43,7 @@ header h1 {
     box-sizing: border-box;
 }
 
-.main .side-box {
+.side-box {
     margin: 10px 0;
     padding: 20px 15px;
     width: 100%;
@@ -60,7 +59,11 @@ header h1 {
         -10px -10px 20px #ffffff;
 }
 
-.main .side-box .values {
+.side-box span {
+    font-size: 16px;
+}
+
+.side-box .values {
     font-family: 'Space Mono', monospace !important;
     font-size: 40px;
 }
@@ -69,11 +72,12 @@ header h1 {
     width: 100%;
     flex: 1;
     padding: 10px;
+    display: flex;
 }
 
 .main-graph div {
-    height: 100%;
     margin: 10px 0;
+    width: 100%;
     border-radius: 20px;
     background: #e0e0e0;
     box-shadow: 10px 10px 20px #bebebe,
@@ -85,9 +89,23 @@ header h1 {
         flex-direction: column;
     }
 
-    .main .side {
+    .side {
         max-width: none;
         flex-wrap: wrap;
     }
     
+}
+
+@media all and (max-height:925px) {
+    .side {
+        max-width: 200px;
+    }
+
+    .side-box span {
+        font-size: 12px;
+    }
+
+    .side-box .values {
+        font-size: 32px;
+    }
 }
