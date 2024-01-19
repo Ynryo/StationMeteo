@@ -13,7 +13,7 @@ const char *password = "kzvzbq2tdbq6rttrqh6f35";
 // const char *ssid = "TP-Link_FC6C";
 // const char *password = "03798966";
 
-// int led = 2;
+
 const int luminositySensor = 34;
 const int windSpeedSensor = 12;
 const int windDirectionSensor = 14;
@@ -173,15 +173,15 @@ void loop()
     Serial.println(windSpeedPhase);
     if (windSpeedPhase == 1) // vent calme
     {
-        windSpeed = random(3, 35);
+        windSpeed = random(3, 50);
         for (int loops = 1; loops < random(6, 16); loops++)
         {
             windSpeed = windSpeed + random(-2, 3);
-            if (windSpeed < 2)
+            if (windSpeed < 3)
             {
                 windSpeed = windSpeed + 3;
             }
-            if (windSpeed > 36)
+            if (windSpeed > 50)
             {
                 windSpeed = windSpeed - 3;
             }
@@ -192,15 +192,15 @@ void loop()
     }
     else if (windSpeedPhase == 2) // vent agité
     {
-        windSpeed = random(35, 70);
+        windSpeed = random(35, 85);
         for (int loops = 1; loops < random(6, 16); loops++)
         {
-            windSpeed = windSpeed + random(-2, 3);
-            if (windSpeed < 34)
+            windSpeed = windSpeed + random(-5, 6);
+            if (windSpeed < 35)
             {
                 windSpeed = windSpeed + 3;
             }
-            if (windSpeed > 71)
+            if (windSpeed > 85)
             {
                 windSpeed = windSpeed - 3;
             }
@@ -211,15 +211,15 @@ void loop()
     }
     else if (windSpeedPhase == 3) // tempète
     {
-        windSpeed = random(70, 110);
+        windSpeed = random(55, 125);
         for (int loops = 1; loops < random(6, 16); loops++)
         {
-            windSpeed = windSpeed + random(-2, 3);
-            if (windSpeed < 69)
+            windSpeed = windSpeed + random(-8, 9);
+            if (windSpeed < 55)
             {
                 windSpeed = windSpeed + 3;
             }
-            if (windSpeed > 111)
+            if (windSpeed > 125)
             {
                 windSpeed = windSpeed - 3;
             }
@@ -230,15 +230,15 @@ void loop()
     }
     else if (windSpeedPhase == 4)
     {
-        windSpeed = random(110, 170);
+        windSpeed = random(95, 185);
         for (int loops = 1; loops < random(6, 16); loops++)
         {
-            windSpeed = windSpeed + random(-2, 3);
-            if (windSpeed < 109)
+            windSpeed = windSpeed + random(-11, 12);
+            if (windSpeed < 95)
             {
                 windSpeed = windSpeed + 3;
             }
-            if (windSpeed > 171)
+            if (windSpeed > 185)
             {
                 windSpeed = windSpeed - 3;
             }
