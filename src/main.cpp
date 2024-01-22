@@ -13,10 +13,7 @@ const char *password = "kzvzbq2tdbq6rttrqh6f35";
 // const char *ssid = "TP-Link_FC6C";
 // const char *password = "03798966";
 
-
 const int luminositySensor = 34;
-const int windSpeedSensor = 12;
-const int windDirectionSensor = 14;
 const int temperatureSensor = 33; // temperature and humidity in the same sensor
 
 int windSpeed;
@@ -39,12 +36,10 @@ void setup()
 
     //--------------------GPIO
     pinMode(luminositySensor, INPUT);
-    pinMode(windSpeedSensor, INPUT);
-    pinMode(windDirectionSensor, INPUT);
     dht.begin();
 
     //--------------------SPIFFS
-    if (!SPIFFS.begin(true))
+    if (!SPIFFS.begin(true)) // Si les SPIFFS ne initialisent pas, écrire "SPIFFS error" dans la console
     {
         Serial.println("SPIFFS error");
         return;
@@ -53,7 +48,7 @@ void setup()
     File root = SPIFFS.open("/");
     File file = root.openNextFile();
 
-    while (file)
+    while (file) // Pour chaque fichier, écrire son nom dans la console
     {
         Serial.print("File: ");
         Serial.println(file.name());
@@ -79,37 +74,29 @@ void setup()
     //--------------------SERVER
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/index.html", "text/html"); });
-    server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest *request)
-              { request->send(SPIFFS, "/index.html", "text/html"); });
-    server.on("/old.html", HTTP_GET, [](AsyncWebServerRequest *request)
-              { request->send(SPIFFS, "/old.html", "text/html"); });
-
-    server.on("/w3.css", HTTP_GET, [](AsyncWebServerRequest *request)
-              { request->send(SPIFFS, "/w3.css", "text/css"); });
     server.on("/styles.css", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/styles.css", "text/css"); });
-
     server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/script.js", "text/javascript"); });
-
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        // String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
-        // ",\"windSpeed\":" + windSpeed + 
-        // ",\"windDirectionText\":\"" + windDirectionText + 
-        // "\",\"windDirectionInt\":" + String(windDirectionInt) + 
-        // ",\"temperature\":" + float(dht.readTemperature()) + 
-        // ",\"humidity\":" + float(dht.readHumidity()) + 
-        // "}";
-        String datas = "{\"brightness\":" + String(random(100000)) + 
+        //acquisition des données (mélange avec le code de Giovani)
+        String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
         ",\"windSpeed\":" + windSpeed + 
         ",\"windDirectionText\":\"" + windDirectionText + 
-        "\",\"windDirectionInt\":" + windDirectionInt + 
-        ",\"temperature\":" + String(random(30)) + 
-        ",\"humidity\":" + String(random(100)) + 
+        "\",\"windDirectionInt\":" + String(windDirectionInt) + 
+        ",\"temperature\":" + float(dht.readTemperature()) + 
+        ",\"humidity\":" + float(dht.readHumidity()) + 
         "}";
        request->send(200, "application/json", datas); });
 
+    // String datas = "{\"brightness\":" + String(random(100000)) +
+    // ",\"windSpeed\":" + windSpeed +
+    // ",\"windDirectionText\":\"" + windDirectionText +
+    // "\",\"windDirectionInt\":" + windDirectionInt +
+    // ",\"temperature\":" + String(random(30)) +
+    // ",\"humidity\":" + String(random(100)) +
+    // "}";
     server.begin();
     Serial.println("Server on");
 }
@@ -248,4 +235,3 @@ void loop()
         }
     }
 }
-
