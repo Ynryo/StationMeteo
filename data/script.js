@@ -8,10 +8,9 @@ const chartsDatas = [
     ["luminosityChart", "Luminosité", "orange", "Luminosité (lux)", "Temps (minutes)"]
 ]
 
-// function charts() {
 chartsDatas.forEach((chartDatas) => {
     wind = document.getElementById(chartDatas[0]).getContext('2d')
-    eval(chartDatas[0]) = new Chart(wind, {
+    window[chartDatas[0]] = new Chart(wind, {
         type: "line",
         data: {
             labels: xValues,
@@ -43,7 +42,6 @@ chartsDatas.forEach((chartDatas) => {
         }
     })
 })
-// }
 
 function editDatasets(chart, newData) {
     chart.data.datasets.forEach((dataset) => {
@@ -55,14 +53,14 @@ function editDatasets(chart, newData) {
     chart.update()
 }
 
-// charts("")
-
 setInterval(function getData() {
     var xhttp = new XMLHttpRequest()
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const datas = JSON.parse(this.responseText)
             editDatasets(windSpeedChart, datas.windSpeed)
+            editDatasets(temperatureChart, datas.temperature)
+            editDatasets(luminosityChart, datas.brightness)
             document.getElementById("temperature").innerHTML = datas.temperature
             document.getElementById("brightness").innerHTML = datas.brightness
             document.getElementById("wind-speed").innerHTML = datas.windSpeed
