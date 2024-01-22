@@ -75,13 +75,18 @@ header h1 {
     display: flex;
 }
 
-.main-graph div {
+.main-graph div.graph {
+    display: none;
     margin: 10px 0;
     width: 100%;
     border-radius: 20px;
     background: #e0e0e0;
     box-shadow: 10px 10px 20px #bebebe,
         -10px -10px 20px #ffffff;
+}
+
+.main-graph div.graph.active {
+    display: block;
 }
 
 @media all and (max-width: 600px) {

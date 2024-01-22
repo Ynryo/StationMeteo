@@ -23,7 +23,7 @@ String windDirectionText = "none";
 
 DHT dht(temperatureSensor, DHT22);
 
-AsyncWebServer server(80);
+AsyncWebServer server(80); //démarrage du serveur sur la port 80
 
 void setup()
 {
@@ -36,7 +36,7 @@ void setup()
 
     //--------------------GPIO
     pinMode(luminositySensor, INPUT);
-    dht.begin();
+    dht.begin(); //démarrage de la lib DHT
 
     //--------------------SPIFFS
     if (!SPIFFS.begin(true)) // Si les SPIFFS ne initialisent pas, écrire "SPIFFS error" dans la console
@@ -57,10 +57,10 @@ void setup()
     }
 
     //--------------------WIFI
-    WiFi.begin(ssid, password);
+    WiFi.begin(ssid, password); //démarrage WIFI avec le SSID et le MDP
     Serial.print("Waiting for connection...");
 
-    while (WiFi.status() != WL_CONNECTED)
+    while (WiFi.status() != WL_CONNECTED) //tant que la connexion WIFI n'est pas active, print "."
     {
         Serial.print(".");
         delay(100);
@@ -69,7 +69,7 @@ void setup()
     Serial.print("\n");
     Serial.println("Connected");
     Serial.print("IP adress: ");
-    Serial.println(WiFi.localIP());
+    Serial.println(WiFi.localIP()); //print l'adresse IP
 
     //--------------------SERVER
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -103,6 +103,7 @@ void setup()
 
 void windDirectionIntToText()
 {
+    //simulateur direction vent
     windDirectionInt = random(0, 360);
     if (windDirectionInt < 2)
     {
@@ -154,7 +155,7 @@ void loop()
 {
     float tauxHumidite = dht.readHumidity();            // Lecture du taux d'humidité (en %)
     float temperatureEnCelsius = dht.readTemperature(); // Lecture de la température, exprimée en degrés Celsius
-    // simulateur vitesse
+    // simulateur vitesse vent
     windSpeedPhase = random(1, 4);
     Serial.print("Phase : ");
     Serial.println(windSpeedPhase);
@@ -177,7 +178,7 @@ void loop()
             delay(1000);
         }
     }
-    else if (windSpeedPhase == 2) // vent agité
+    else if (windSpeedPhase == 2) // vent normal
     {
         windSpeed = random(35, 85);
         for (int loops = 1; loops < random(6, 16); loops++)
@@ -196,7 +197,7 @@ void loop()
             delay(1000);
         }
     }
-    else if (windSpeedPhase == 3) // tempète
+    else if (windSpeedPhase == 3) // vent agité
     {
         windSpeed = random(55, 125);
         for (int loops = 1; loops < random(6, 16); loops++)
@@ -215,7 +216,7 @@ void loop()
             delay(1000);
         }
     }
-    else if (windSpeedPhase == 4)
+    else if (windSpeedPhase == 4) //vent calme
     {
         windSpeed = random(95, 185);
         for (int loops = 1; loops < random(6, 16); loops++)
