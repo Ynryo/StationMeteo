@@ -4,12 +4,12 @@
 <head>
     <title>Station Météo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <link rel="stylesheet" href="/styles.css">
-    <link rel="stylesheet" href="/data/styles.css"> <!-- only dev -->
+    <link rel="stylesheet" type="text/css" href="/styles.css"> <!-- import les styles -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> <!-- lib requetes async -->
+    <!-- import la police-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
 </head>
 
 <body>
@@ -54,8 +54,15 @@
             <div class="graph">
                 <canvas id="luminosityChart"></canvas>
             </div>
+            <div class="graph">
+                <canvas id="windDirectionChart"></canvas>
+            </div>
+            <div class="graph">
+                <canvas id="humidityChart"></canvas>
+            </div>
         </div>
     </div>
+    <!-- import les scripts JS -->
     <script type="text/javascript" src="script.js"></script>
     <script type="text/javascript" src="onclick.js"></script>
 </body>

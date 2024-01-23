@@ -18,12 +18,11 @@ sideBoxes.forEach((sideBox) => {
             document.getElementById("temperatureChart").parentElement.classList.add("active")
         } else if (child == "brightness") {
             document.getElementById("luminosityChart").parentElement.classList.add("active")
+        } else if (child == "wind-direction") {
+            document.getElementById("windDirectionChart").parentElement.classList.add("active")
+        } else if (child == "humidity") {
+            document.getElementById("humidityChart").parentElement.classList.add("active")
         }
-        // else if (child == "wind-direction") {
-        //     document.getElementById("temperatureChart").parentElement.classList.add("active")
-        // } else if (child == "humidity") {
-        //     document.getElementById("humidityChart").parentElement.classList.add("active")
-        // }
         sideBox.classList.add("active")
     })
 })

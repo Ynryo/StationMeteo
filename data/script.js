@@ -1,18 +1,17 @@
-var windSpeedChart;
-var temperatureChart;
-var luminosityChart;
 const xValues = ['60 secondes', '', '', '', '', '55 secondes', '', '', '', '', '50 secondes', '', '', '', '', '45 secondes', '', '', '', '', '40 secondes', '', '', '', '', '35 secondes', '', '', '', '', '30 secondes', '', '', '', '', '25 secondes', '', '', '', '', '20 secondes', '', '', '', '', '15 secondes', '', '', '', '', '10 secondes', '', '', '', '', '5 secondes', '', '', '', '', 'Maintenant']
 const chartsDatas = [
-    ["windSpeedChart", "Vitesse", "lightGreen", "Vitesse (km/h)", "Temps (minutes)"],
+    ["windSpeedChart", "Vitesse du vent", "lightGreen", "Vitesse (km/h)", "Temps (minutes)"],
     ["temperatureChart", "Température", "red", "Température (°C)", "Temps (minutes)"],
-    ["luminosityChart", "Luminosité", "orange", "Luminosité (lux)", "Temps (minutes)"]
+    ["luminosityChart", "Luminosité", "yellow", "Luminosité (lux)", "Temps (minutes)"],
+    ["windDirectionChart", "Direction du vent", "orange", "Degrés (°)", "Temps (minutes)"],
+    ["humidityChart", "Humidité dans l'air", "lightBlue", "Taux d'humidité dans l'air(%)", "Temps (minutes)"]
 ]
 
-chartsDatas.forEach((chartDatas) => {
-    wind = document.getElementById(chartDatas[0]).getContext('2d')
-    window[chartDatas[0]] = new Chart(wind, {
-        type: "line",
-        data: {
+chartsDatas.forEach((chartDatas) => { //pour chaque ligne de la liste
+    wind = document.getElementById(chartDatas[0]).getContext('2d') //graphique en 2D
+    window[chartDatas[0]] = new Chart(wind, { //création du graphique
+        type: "line", //type de graphique
+        data: { //données
             labels: xValues,
             datasets: [{
                 label: chartDatas[1],
@@ -21,7 +20,10 @@ chartsDatas.forEach((chartDatas) => {
                 borderColor: chartDatas[2]
             }]
         },
-        options: {
+        options: { //paramétrage du graphique
+            layout: {
+                padding: 20
+            },
             scales: {
                 yAxes: [{
                     scaleLabel: {
@@ -43,24 +45,27 @@ chartsDatas.forEach((chartDatas) => {
     })
 })
 
-function editDatasets(chart, newData) {
+function editDatasets(chart, newData) { //edit les champs de données pour chaque graphique
     chart.data.datasets.forEach((dataset) => {
-        if (dataset.data.length >= xValues.length) {
-            dataset.data.shift()
+        //si le nbr de valeurs du graphique >= au nbr de valeurs en abscisse
+        if (dataset.data.length >= xValues.length) { 
+            dataset.data.shift() //on retire la dernière valeur
         }
-        dataset.data.push(newData);
+        dataset.data.push(newData); //on ajoute cette valeur
     })
     chart.update()
 }
 
 setInterval(function getData() {
-    var xhttp = new XMLHttpRequest()
+    var xhttp = new XMLHttpRequest() //prépare la requete HTTP
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             const datas = JSON.parse(this.responseText)
             editDatasets(windSpeedChart, datas.windSpeed)
             editDatasets(temperatureChart, datas.temperature)
             editDatasets(luminosityChart, datas.brightness)
+            editDatasets(windDirectionChart, datas.windDirectionInt)
+            editDatasets(humidityChart, datas.humidity)
             document.getElementById("temperature").innerHTML = datas.temperature
             document.getElementById("brightness").innerHTML = datas.brightness
             document.getElementById("wind-speed").innerHTML = datas.windSpeed
@@ -68,6 +73,6 @@ setInterval(function getData() {
             document.getElementById("humidity").innerHTML = datas.humidity
         }
     }
-    xhttp.open("GET", "getDatas", true)
+    xhttp.open("GET", "getDatas", true) //on envoie la requete vers /getDatas
     xhttp.send()
 }, 1000)
