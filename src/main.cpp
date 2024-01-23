@@ -23,7 +23,7 @@ String windDirectionText = "none";
 
 DHT dht(temperatureSensor, DHT22);
 
-AsyncWebServer server(80); //démarrage du serveur sur la port 80
+AsyncWebServer server(80); // démarrage du serveur sur la port 80
 
 void setup()
 {
@@ -36,7 +36,7 @@ void setup()
 
     //--------------------GPIO
     pinMode(luminositySensor, INPUT);
-    dht.begin(); //démarrage de la lib DHT
+    dht.begin(); // démarrage de la lib DHT
 
     //--------------------SPIFFS
     if (!SPIFFS.begin(true)) // Si les SPIFFS ne initialisent pas, écrire "SPIFFS error" dans la console
@@ -57,10 +57,10 @@ void setup()
     }
 
     //--------------------WIFI
-    WiFi.begin(ssid, password); //démarrage WIFI avec le SSID et le MDP
+    WiFi.begin(ssid, password); // démarrage WIFI avec le SSID et le MDP
     Serial.print("Waiting for connection...");
 
-    while (WiFi.status() != WL_CONNECTED) //tant que la connexion WIFI n'est pas active, print "."
+    while (WiFi.status() != WL_CONNECTED) // tant que la connexion WIFI n'est pas active, print "."
     {
         Serial.print(".");
         delay(100);
@@ -69,7 +69,7 @@ void setup()
     Serial.print("\n");
     Serial.println("Connected");
     Serial.print("IP adress: ");
-    Serial.println(WiFi.localIP()); //print l'adresse IP
+    Serial.println(WiFi.localIP()); // print l'adresse IP
 
     //--------------------SERVER
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -78,32 +78,34 @@ void setup()
               { request->send(SPIFFS, "/styles.css", "text/css"); });
     server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/script.js", "text/javascript"); });
+    server.on("/onclick.js", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(SPIFFS, "/onclick.js", "text/javascript"); });
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
         //acquisition des données (mélange avec le code de Giovani)
-        String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
-        ",\"windSpeed\":" + windSpeed + 
-        ",\"windDirectionText\":\"" + windDirectionText + 
-        "\",\"windDirectionInt\":" + String(windDirectionInt) + 
-        ",\"temperature\":" + float(dht.readTemperature()) + 
-        ",\"humidity\":" + float(dht.readHumidity()) + 
-        "}";
-       request->send(200, "application/json", datas); });
+        // String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
+        // ",\"windSpeed\":" + windSpeed + 
+        // ",\"windDirectionText\":\"" + windDirectionText + 
+        // "\",\"windDirectionInt\":" + String(windDirectionInt) + 
+        // ",\"temperature\":" + float(dht.readTemperature()) + 
+        // ",\"humidity\":" + float(dht.readHumidity()) + 
+        // "}";
 
-    // String datas = "{\"brightness\":" + String(random(100000)) +
-    // ",\"windSpeed\":" + windSpeed +
-    // ",\"windDirectionText\":\"" + windDirectionText +
-    // "\",\"windDirectionInt\":" + windDirectionInt +
-    // ",\"temperature\":" + String(random(30)) +
-    // ",\"humidity\":" + String(random(100)) +
-    // "}";
+    String datas = "{\"brightness\":" + String(random(100000)) +
+    ",\"windSpeed\":" + windSpeed +
+    ",\"windDirectionText\":\"" + windDirectionText +
+    "\",\"windDirectionInt\":" + windDirectionInt +
+    ",\"temperature\":" + String(random(30)) +
+    ",\"humidity\":" + String(random(100)) +
+    "}";
+    request->send(200, "application/json", datas); });
     server.begin();
     Serial.println("Server on");
 }
 
 void windDirectionIntToText()
 {
-    //simulateur direction vent
+    // simulateur direction vent
     windDirectionInt = random(0, 360);
     if (windDirectionInt < 2)
     {
@@ -216,7 +218,7 @@ void loop()
             delay(1000);
         }
     }
-    else if (windSpeedPhase == 4) //vent calme
+    else if (windSpeedPhase == 4) // vent calme
     {
         windSpeed = random(95, 185);
         for (int loops = 1; loops < random(6, 16); loops++)
