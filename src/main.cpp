@@ -91,13 +91,13 @@ void setup()
         ",\"humidity\":" + float(dht.readHumidity()) + 
         "}";
 
-    String datas = "{\"brightness\":" + String(random(100000)) +
-    ",\"windSpeed\":" + windSpeed +
-    ",\"windDirectionText\":\"" + windDirectionText +
-    "\",\"windDirectionInt\":" + windDirectionInt +
-    ",\"temperature\":" + String(random(30)) +
-    ",\"humidity\":" + String(random(100)) +
-    "}";
+    // String datas = "{\"brightness\":" + String(random(100000)) +
+    // ",\"windSpeed\":" + windSpeed +
+    // ",\"windDirectionText\":\"" + windDirectionText +
+    // "\",\"windDirectionInt\":" + windDirectionInt +
+    // ",\"temperature\":" + String(random(30)) +
+    // ",\"humidity\":" + String(random(100)) +
+    // "}";
     request->send(200, "application/json", datas); });
     server.begin();
     Serial.println("Server on");
