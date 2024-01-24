@@ -37,8 +37,8 @@ header h1 {
     display: flex;
     flex-wrap: nowrap;
     flex-direction: column;
-    max-width: 250px;
-    width: 100%;
+    width: 250px;
+    /* width: 100%; */
     padding: 10px;
     box-sizing: border-box;
 }
@@ -84,13 +84,17 @@ header h1 {
         -10px -10px 20px #ffffff;
 }
 
+.main-graph div canvas {
+    height: 100%;
+}
+
 @media all and (max-width: 600px) {
     .main {
         flex-direction: column;
     }
 
     .side {
-        max-width: none;
+        width: 100%;
         flex-wrap: wrap;
     }
     
@@ -98,7 +102,7 @@ header h1 {
 
 @media all and (max-height:925px) {
     .side {
-        max-width: 200px;
+        width: 200px;
     }
 
     .side-box span {
