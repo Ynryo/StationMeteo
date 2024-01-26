@@ -5,11 +5,15 @@ function removeClass() {
     graphs.forEach((graph) => {
         graph.classList.remove("active")
     })
+    sideBoxes.forEach((sideBox) => {
+        sideBox.classList.remove("active")
+    })
 }
 
 sideBoxes.forEach((sideBox) => {
     sideBox.addEventListener("click", () => {
         removeClass()
+        sideBox.classList.add("active")
         var child = sideBox.children[1].id
         console.log(child)
         if (child == "wind-speed") {

@@ -24,6 +24,8 @@ chartsDatas.forEach((chartDatas) => { //pour chaque ligne de la liste
             layout: {
                 padding: 20
             },
+            responsive: true,
+            maintainAspectRatio: false,
             scales: {
                 yAxes: [{
                     scaleLabel: {

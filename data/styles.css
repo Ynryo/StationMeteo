@@ -38,7 +38,6 @@ header h1 {
     flex-wrap: nowrap;
     flex-direction: column;
     width: 250px;
-    /* width: 100%; */
     padding: 10px;
     box-sizing: border-box;
 }
@@ -57,7 +56,13 @@ header h1 {
     background: #e0e0e0;
     box-shadow: 10px 10px 20px #bebebe,
         -10px -10px 20px #ffffff;
-        cursor: pointer;
+    cursor: pointer;
+    transition: box-shadow 1000ms;
+}
+
+.side-box.active {
+    box-shadow: 10px 10px 20px #a0a0a0,
+        -10px -10px 20px #bebebe;
 }
 
 .side-box span {
@@ -74,6 +79,7 @@ header h1 {
     flex: 1;
     padding: 10px;
     display: flex;
+    clear: both;
 }
 
 .main-graph div.graph {
@@ -103,7 +109,7 @@ header h1 {
         width: 100%;
         flex-wrap: wrap;
     }
-    
+
 }
 
 @media all and (max-height:925px) {
