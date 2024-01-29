@@ -6,6 +6,7 @@ const chartsDatas = [
     ["windDirectionChart", "Direction du vent", "orange", "Degrés (°)", "Temps (minutes)"],
     ["humidityChart", "Humidité dans l'air", "lightBlue", "Taux d'humidité dans l'air(%)", "Temps (minutes)"]
 ]
+var datas;
 
 chartsDatas.forEach((chartDatas) => { //pour chaque ligne de la liste
     wind = document.getElementById(chartDatas[0]).getContext('2d') //graphique en 2D
@@ -50,7 +51,7 @@ chartsDatas.forEach((chartDatas) => { //pour chaque ligne de la liste
 function editDatasets(chart, newData) { //edit les champs de données pour chaque graphique
     chart.data.datasets.forEach((dataset) => {
         //si le nbr de valeurs du graphique >= au nbr de valeurs en abscisse
-        if (dataset.data.length >= xValues.length) { 
+        if (dataset.data.length >= xValues.length) {
             dataset.data.shift() //on retire la dernière valeur
         }
         dataset.data.push(newData); //on ajoute cette valeur
@@ -62,7 +63,7 @@ setInterval(function getData() {
     var xhttp = new XMLHttpRequest() //prépare la requete HTTP
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            const datas = JSON.parse(this.responseText)
+            datas = JSON.parse(this.responseText)
             editDatasets(windSpeedChart, datas.windSpeed)
             editDatasets(temperatureChart, datas.temperature)
             editDatasets(luminosityChart, datas.brightness)
@@ -77,4 +78,22 @@ setInterval(function getData() {
     }
     xhttp.open("GET", "getDatas", true) //on envoie la requete vers /getDatas
     xhttp.send()
+    
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "https://project.specstech.fr/post-datas.php", true);
+
+    // Send the proper header information along with the request
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.onreadystatechange = () => {
+        // Call a function when the state changes.
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+            // Request finished. Do processing here.
+        }
+    };
+    xhr.send("foo=bar&lorem=ipsum");
+    // xhr.send(new Int8Array());
+    // xhr.send(document);
+
 }, 1000)
