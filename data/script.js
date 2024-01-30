@@ -78,22 +78,24 @@ setInterval(function getData() {
     }
     xhttp.open("GET", "getDatas", true) //on envoie la requete vers /getDatas
     xhttp.send()
-    
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("POST", "https://project.specstech.fr/post-datas.php", true);
-
-    // Send the proper header information along with the request
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-    xhr.onreadystatechange = () => {
-        // Call a function when the state changes.
-        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-            // Request finished. Do processing here.
+    $(document).ready(
+        function mtnMode() {
+            var donnees = {
+                user: datas
+            };
+            $.ajax({
+                type: "POST",
+                url: "https://project.specstech.fr/post-datas.php",
+                data: donnees,
+                success: function mtnMode(response) {
+                    console.log(response)
+                },
+                error: function mtnMode(error) {
+                    console.log(error)
+                }
+            });
         }
-    };
-    xhr.send("foo=bar&lorem=ipsum");
-    // xhr.send(new Int8Array());
-    // xhr.send(document);
+    )
 
 }, 1000)
