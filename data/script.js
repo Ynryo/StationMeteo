@@ -2,9 +2,10 @@ const xValues = ['60 secondes', '', '', '', '', '55 secondes', '', '', '', '', '
 const chartsDatas = [
     ["windSpeedChart", "Vitesse du vent", "lightGreen", "Vitesse (km/h)", "Temps (minutes)"],
     ["temperatureChart", "Température", "red", "Température (°C)", "Temps (minutes)"],
-    ["luminosityChart", "Luminosité", "yellow", "Luminosité (lux)", "Temps (minutes)"],
+    // ["luminosityChart", "Luminosité", "yellow", "Luminosité (lux)", "Temps (minutes)"],
+    ["uvChart", "Indice UV", "darkBlue", "Ultraviolets (UV)", "Temps (minutes)"],
     ["windDirectionChart", "Direction du vent", "orange", "Degrés (°)", "Temps (minutes)"],
-    ["humidityChart", "Humidité dans l'air", "lightBlue", "Taux d'humidité dans l'air(%)", "Temps (minutes)"]
+    ["humidityChart", "Humidité dans l'air", "lightBlue", "Taux d'humidité dans l'air (%)", "Temps (minutes)"]
 ]
 var datas;
 
@@ -66,11 +67,11 @@ setInterval(function getData() {
             datas = JSON.parse(this.responseText)
             editDatasets(windSpeedChart, datas.windSpeed)
             editDatasets(temperatureChart, datas.temperature)
-            editDatasets(luminosityChart, datas.brightness)
+            editDatasets(uvChart, datas.brightness)
             editDatasets(windDirectionChart, datas.windDirectionInt)
             editDatasets(humidityChart, datas.humidity)
             document.getElementById("temperature").innerHTML = datas.temperature
-            document.getElementById("brightness").innerHTML = datas.brightness
+            document.getElementById("brightness").innerHTML = datas.uvIndex
             document.getElementById("wind-speed").innerHTML = datas.windSpeed
             document.getElementById("wind-direction").innerHTML = datas.windDirectionInt
             document.getElementById("humidity").innerHTML = datas.humidity
@@ -82,7 +83,11 @@ setInterval(function getData() {
     $(document).ready(
         function mtnMode() {
             var donnees = {
-                user: datas
+                temperature: datas.temperature,
+                brightness: datas.brightness,
+                windSpeed: datas.windSpeed,
+                windDirectionInt: datas.windDirectionInt,
+                humidity: datas.humidity,
             };
             $.ajax({
                 type: "POST",
