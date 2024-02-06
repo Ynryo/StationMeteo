@@ -88,6 +88,7 @@ setInterval(function getData() {
                 windSpeed: datas.windSpeed,
                 windDirectionInt: datas.windDirectionInt,
                 humidity: datas.humidity,
+                uv_index: datas.uv_index,
             };
             $.ajax({
                 type: "POST",
