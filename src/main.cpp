@@ -89,6 +89,7 @@ void setup()
         "\",\"windDirectionInt\":" + String(windDirectionInt) + 
         ",\"temperature\":" + float(dht.readTemperature()) + 
         ",\"humidity\":" + float(dht.readHumidity()) + 
+        ",\"uv_index\":" + float() + 
         "}";
 
     // String datas = "{\"brightness\":" + String(random(100000)) +
@@ -218,7 +219,7 @@ void loop()
             delay(1000);
         }
     }
-    else if (windSpeedPhase == 4) // vent calme
+    else if (windSpeedPhase == 4) // tempète
     {
         windSpeed = random(95, 185);
         for (int loops = 1; loops < random(6, 16); loops++)

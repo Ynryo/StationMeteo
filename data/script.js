@@ -81,27 +81,26 @@ setInterval(function getData() {
     xhttp.send()
 
     $(document).ready(
-        function mtnMode() {
+        function() {
             var donnees = {
                 temperature: datas.temperature,
                 brightness: datas.brightness,
                 windSpeed: datas.windSpeed,
                 windDirectionInt: datas.windDirectionInt,
                 humidity: datas.humidity,
-                uv_index: datas.uv_index,
+                uv_index: datas.uv_index
             };
             $.ajax({
                 type: "POST",
                 url: "https://project.specstech.fr/post-datas.php",
                 data: donnees,
-                success: function mtnMode(response) {
+                success: function(response) {
                     console.log(response)
                 },
-                error: function mtnMode(error) {
+                error: function(error) {
                     console.log(error)
                 }
             });
         }
     )
-
 }, 1000)
