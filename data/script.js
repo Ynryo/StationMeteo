@@ -82,6 +82,7 @@ setInterval(function getData() {
 
     $(document).ready(
         function() {
+            console.log(datas)
             var donnees = {
                 temperature: datas.temperature,
                 brightness: datas.brightness,

@@ -6,12 +6,12 @@
 #include <DHT.h>
 #include <DHT_U.h>
 
-// const char *ssid = "Freebox-A05C1B";
-// const char *password = "kzvzbq2tdbq6rttrqh6f35";
+const char *ssid = "Freebox-A05C1B";
+const char *password = "kzvzbq2tdbq6rttrqh6f35";
 // const char *ssid = "Ynryo's Private Network";
 // const char *password = "SecurePassword";
-const char *ssid = "TP-Link_FC6C";
-const char *password = "03798966";
+// const char *ssid = "TP-Link_FC6C";
+// const char *password = "03798966";
 
 const int luminositySensor = 34;
 const int temperatureSensor = 33; // temperature and humidity in the same sensor
