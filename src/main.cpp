@@ -84,13 +84,14 @@ void setup()
               { request->send(SPIFFS, "/onclick.js", "text/javascript"); });
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        String datas = "{\"windSpeed\":" + String(windSpeed) + 
-        ",\"windDirectionText\":\"" + windDirectionText + 
-        "\",\"windDirectionInt\":" + String(windDirectionInt) + 
-        ",\"temperature\":" + String(dht.readTemperature()) + 
-        ",\"humidity\":" + String(dht.readHumidity()) + 
-        ",\"uvIndex\":" + String(ltr.readUVS()) + 
-        "}";
+        // String datas = "{\"windSpeed\":" + String(windSpeed) + 
+        // ",\"windDirectionText\":\"" + windDirectionText + 
+        // "\",\"windDirectionInt\":" + String(windDirectionInt) + 
+        // ",\"temperature\":" + String(dht.readTemperature()) + 
+        // ",\"humidity\":" + String(dht.readHumidity()) + 
+        // ",\"uvIndex\":" + String(ltr.readUVS()) + 
+        // "}";
+        String datas = "{\"windSpeed\":0,\"windDirectionText\":\"Nord\",\"windDirectionInt\":0,\"temperature\":0,\"humidity\":0,\"uvIndex\":0}";
     request->send(200, "application/json", datas); });
     server.begin();
     Serial.println("Server on");

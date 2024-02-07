@@ -1,8 +1,8 @@
 <?php
 include('connection.php');
+header("Access-Control-Allow-Origin: *");
 if (isset($_POST["temperature"])) {
     $temperature = strip_tags($_POST["temperature"]);
-    // $brightness = strip_tags($_POST["brightness"]);
     $wind_speed = strip_tags($_POST["wind_speed"]);
     $wind_direction = strip_tags($_POST["wind_direction"]);
     $humidity = strip_tags($_POST["humidity"]);
@@ -20,3 +20,4 @@ if (isset($_POST["temperature"])) {
 } else {
     echo "No data";
 }
+$conn->close();

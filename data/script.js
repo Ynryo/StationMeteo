@@ -61,29 +61,23 @@ function editDatasets(chart, newData) { //edit les champs de données pour chaqu
 }
 
 setInterval(function getData() {
-    var xhttp = new XMLHttpRequest() //prépare la requete HTTP
+    var xhttp = new XMLHttpRequest(); //prépare la requete HTTP
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            datas = JSON.parse(this.responseText)
-            console.log(datas)
-            editDatasets(windSpeedChart, datas.windSpeed)
-            editDatasets(temperatureChart, datas.temperature)
-            editDatasets(uvChart, datas.uvIndex)
-            editDatasets(windDirectionChart, datas.windDirectionInt)
-            editDatasets(humidityChart, datas.humidity)
-            document.getElementById("temperature").innerHTML = datas.temperature
-            document.getElementById("uv-index").innerHTML = datas.uvIndex
-            document.getElementById("wind-speed").innerHTML = datas.windSpeed
-            document.getElementById("wind-direction").innerHTML = datas.windDirectionInt
-            document.getElementById("humidity").innerHTML = datas.humidity
-        }
-    }
-    xhttp.open("GET", "getDatas", true) //on envoie la requete vers /getDatas
-    xhttp.send()
+            datas = JSON.parse(this.responseText);
+            console.log(datas.uvIndex);
+            editDatasets(windSpeedChart, datas.windSpeed);
+            editDatasets(temperatureChart, datas.temperature);
+            editDatasets(uvChart, datas.uvIndex);
+            editDatasets(windDirectionChart, datas.windDirectionInt);
+            editDatasets(humidityChart, datas.humidity);
+            document.getElementById("temperature").innerHTML = datas.temperature;
+            document.getElementById("uv-index").innerHTML = datas.uvIndex;
+            document.getElementById("wind-speed").innerHTML = datas.windSpeed;
+            document.getElementById("wind-direction").innerHTML = datas.windDirectionInt;
+            document.getElementById("humidity").innerHTML = datas.humidity;
 
-    $(document).ready(
-        function() {
-            console.log(datas)
+            // Envoi des données au serveur
             var donnees = {
                 temperature: datas.temperature,
                 windSpeed: datas.windSpeed,
@@ -96,12 +90,14 @@ setInterval(function getData() {
                 url: "https://project.specstech.fr/post-datas.php",
                 data: donnees,
                 success: function(response) {
-                    console.log(response)
+                    console.log(response);
                 },
                 error: function(error) {
-                    console.log(error)
+                    console.log(error);
                 }
             });
         }
-    )
-}, 1000)
+    };
+    xhttp.open("GET", "getDatas", true); //on envoie la requete vers /getDatas
+    xhttp.send();
+}, 1000);
