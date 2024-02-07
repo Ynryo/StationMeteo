@@ -3,6 +3,7 @@
 #include <SPIFFS.h>
 #include <WiFi.h>
 #include <Adafruit_Sensor.h>
+#include <Adafruit_LTR390.h>
 #include <DHT.h>
 #include <DHT_U.h>
 
@@ -22,6 +23,7 @@ int windDirectionInt = 0;
 String windDirectionText = "none";
 
 DHT dht(temperatureSensor, DHT22);
+Adafruit_LTR390 ltr = Adafruit_LTR390();
 
 AsyncWebServer server(80); // démarrage du serveur sur la port 80
 
@@ -35,8 +37,8 @@ void setup()
     }
 
     //--------------------GPIO
-    pinMode(luminositySensor, INPUT);
     dht.begin(); // démarrage de la lib DHT
+    ltr.begin();
 
     //--------------------SPIFFS
     if (!SPIFFS.begin(true)) // Si les SPIFFS ne initialisent pas, écrire "SPIFFS error" dans la console
@@ -82,23 +84,13 @@ void setup()
               { request->send(SPIFFS, "/onclick.js", "text/javascript"); });
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        //acquisition des données (mélange avec le code de Giovani)
-        String datas = "{\"brightness\":" + String(analogRead(luminositySensor)) + 
-        ",\"windSpeed\":" + windSpeed + 
+        String datas = "{\"windSpeed\":" + String(windSpeed) + 
         ",\"windDirectionText\":\"" + windDirectionText + 
         "\",\"windDirectionInt\":" + String(windDirectionInt) + 
-        ",\"temperature\":" + float(dht.readTemperature()) + 
-        ",\"humidity\":" + float(dht.readHumidity()) + 
-        ",\"uv_index\":" + float() + 
+        ",\"temperature\":" + String(dht.readTemperature()) + 
+        ",\"humidity\":" + String(dht.readHumidity()) + 
+        ",\"uvIndex\":" + String(ltr.readUVS()) + 
         "}";
-
-    // String datas = "{\"brightness\":" + String(random(100000)) +
-    // ",\"windSpeed\":" + windSpeed +
-    // ",\"windDirectionText\":\"" + windDirectionText +
-    // "\",\"windDirectionInt\":" + windDirectionInt +
-    // ",\"temperature\":" + String(random(30)) +
-    // ",\"humidity\":" + String(random(100)) +
-    // "}";
     request->send(200, "application/json", datas); });
     server.begin();
     Serial.println("Server on");
@@ -160,8 +152,8 @@ void loop()
     float temperatureEnCelsius = dht.readTemperature(); // Lecture de la température, exprimée en degrés Celsius
     // simulateur vitesse vent
     windSpeedPhase = random(1, 4);
-    Serial.print("Phase : ");
-    Serial.println(windSpeedPhase);
+    // Serial.print("Phase : ");
+    // Serial.println(windSpeedPhase);
     if (windSpeedPhase == 1) // vent calme
     {
         windSpeed = random(3, 50);
@@ -176,7 +168,7 @@ void loop()
             {
                 windSpeed = windSpeed - 3;
             }
-            Serial.println(windSpeed);
+            // Serial.println(windSpeed);
             windDirectionIntToText();
             delay(1000);
         }
@@ -195,7 +187,7 @@ void loop()
             {
                 windSpeed = windSpeed - 3;
             }
-            Serial.println(windSpeed);
+            // Serial.println(windSpeed);
             windDirectionIntToText();
             delay(1000);
         }
@@ -214,7 +206,7 @@ void loop()
             {
                 windSpeed = windSpeed - 3;
             }
-            Serial.println(windSpeed);
+            // Serial.println(windSpeed);
             windDirectionIntToText();
             delay(1000);
         }
@@ -233,7 +225,7 @@ void loop()
             {
                 windSpeed = windSpeed - 3;
             }
-            Serial.println(windSpeed);
+            // Serial.println(windSpeed);
             windDirectionIntToText();
             delay(1000);
         }

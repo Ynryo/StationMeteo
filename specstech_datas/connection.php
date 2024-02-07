@@ -8,6 +8,8 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
     die("<p class=\"error\">Connexion échouée : " . $conn->connect_error . "</p>");
+} else {
+    echo "Connection success<br>";
 }
 mysqli_set_charset($conn, "utf8mb4");
 ?>
