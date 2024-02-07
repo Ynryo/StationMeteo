@@ -37,7 +37,6 @@ void setup()
     }
 
     //--------------------GPIO
-    pinMode(luminositySensor, INPUT);
     dht.begin(); // démarrage de la lib DHT
     ltr.begin();
 
@@ -85,12 +84,12 @@ void setup()
               { request->send(SPIFFS, "/onclick.js", "text/javascript"); });
     server.on("/getDatas", HTTP_GET, [](AsyncWebServerRequest *request)
               {
-        String datas = "{\"windSpeed\":" + windSpeed + 
+        String datas = "{\"windSpeed\":" + String(windSpeed) + 
         ",\"windDirectionText\":\"" + windDirectionText + 
         "\",\"windDirectionInt\":" + String(windDirectionInt) + 
-        ",\"temperature\":" + float(dht.readTemperature()) + 
-        ",\"humidity\":" + float(dht.readHumidity()) + 
-        ",\"uvIndex\":" + int(ltr.readUVS()) + 
+        ",\"temperature\":" + String(dht.readTemperature()) + 
+        ",\"humidity\":" + String(dht.readHumidity()) + 
+        ",\"uvIndex\":" + String(ltr.readUVS()) + 
         "}";
     request->send(200, "application/json", datas); });
     server.begin();

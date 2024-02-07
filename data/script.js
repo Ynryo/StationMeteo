@@ -85,11 +85,10 @@ setInterval(function getData() {
         function() {
             var donnees = {
                 temperature: datas.temperature,
-                // brightness: datas.brightness,
                 windSpeed: datas.windSpeed,
                 windDirectionInt: datas.windDirectionInt,
                 humidity: datas.humidity,
-                uv_index: datas.uv_index
+                uvIndex: datas.uvIndex
             };
             $.ajax({
                 type: "POST",
