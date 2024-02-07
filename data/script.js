@@ -65,13 +65,14 @@ setInterval(function getData() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             datas = JSON.parse(this.responseText)
+            console.log(datas)
             editDatasets(windSpeedChart, datas.windSpeed)
             editDatasets(temperatureChart, datas.temperature)
-            editDatasets(uvChart, datas.brightness)
+            editDatasets(uvChart, datas.uvIndex)
             editDatasets(windDirectionChart, datas.windDirectionInt)
             editDatasets(humidityChart, datas.humidity)
             document.getElementById("temperature").innerHTML = datas.temperature
-            document.getElementById("brightness").innerHTML = datas.uvIndex
+            document.getElementById("uv-index").innerHTML = datas.uvIndex
             document.getElementById("wind-speed").innerHTML = datas.windSpeed
             document.getElementById("wind-direction").innerHTML = datas.windDirectionInt
             document.getElementById("humidity").innerHTML = datas.humidity
@@ -84,7 +85,7 @@ setInterval(function getData() {
         function() {
             var donnees = {
                 temperature: datas.temperature,
-                brightness: datas.brightness,
+                // brightness: datas.brightness,
                 windSpeed: datas.windSpeed,
                 windDirectionInt: datas.windDirectionInt,
                 humidity: datas.humidity,

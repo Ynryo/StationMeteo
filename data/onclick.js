@@ -20,8 +20,8 @@ sideBoxes.forEach((sideBox) => {
             document.getElementById("windSpeedChart").parentElement.classList.add("active")
         } else if (child == "temperature") {
             document.getElementById("temperatureChart").parentElement.classList.add("active")
-        } else if (child == "brightness") {
-            document.getElementById("luminosityChart").parentElement.classList.add("active")
+        } else if (child == "uv-index") {
+            document.getElementById("uvChart").parentElement.classList.add("active")
         } else if (child == "wind-direction") {
             document.getElementById("windDirectionChart").parentElement.classList.add("active")
         } else if (child == "humidity") {
