@@ -1,15 +1,36 @@
 const xValues = ['60 secondes', '', '', '', '', '55 secondes', '', '', '', '', '50 secondes', '', '', '', '', '45 secondes', '', '', '', '', '40 secondes', '', '', '', '', '35 secondes', '', '', '', '', '30 secondes', '', '', '', '', '25 secondes', '', '', '', '', '20 secondes', '', '', '', '', '15 secondes', '', '', '', '', '10 secondes', '', '', '', '', '5 secondes', '', '', '', '', 'Maintenant']
 const chartsDatas = [
-    ["windSpeedChart", "Vitesse du vent", "lightGreen", "Vitesse (km/h)", "Temps (minutes)"],
-    ["temperatureChart", "Température", "red", "Température (°C)", "Temps (minutes)"],
+    ["windSpeedChart", "Vitesse du vent", "lightGreen", "Vitesse (km/h)", "Temps (minutes)", "wind_speed"],
+    ["temperatureChart", "Température", "red", "Température (°C)", "Temps (minutes)", "temperature"],
     // ["luminosityChart", "Luminosité", "yellow", "Luminosité (lux)", "Temps (minutes)"],
-    ["uvChart", "Indice UV", "darkBlue", "Ultraviolets (UV)", "Temps (minutes)"],
-    ["windDirectionChart", "Direction du vent", "orange", "Degrés (°)", "Temps (minutes)"],
-    ["humidityChart", "Humidité dans l'air", "lightBlue", "Taux d'humidité dans l'air (%)", "Temps (minutes)"]
+    ["uvChart", "Indice UV", "darkBlue", "Ultraviolets (UV)", "Temps (minutes)", "uv_index"],
+    ["windDirectionChart", "Direction du vent", "orange", "Degrés (°)", "Temps (minutes)", "wind_direction"],
+    ["humidityChart", "Humidité dans l'air", "lightBlue", "Taux d'humidité dans l'air (%)", "Temps (minutes)", "humidity"]
 ]
 var datas;
+// var old_datas;
 
 chartsDatas.forEach((chartDatas) => { //pour chaque ligne de la liste
+    // console.log(chartDatas[5])
+    // $.ajax({
+    //     url: "https://project.specstech.fr/get-datas.php",
+    //     type: "GET",
+    //     dataType: 'JSON',
+    //     data: {data_type: chartsDatas[5]},
+    //     success: function (response) {
+    //         console.log(response);
+    //         console.log(response.status)
+    //         old_datas = JSON.parse(response);
+    //         // old_datas = old_datas.resultaten;
+    //         // alert(old_datas);
+    //         old_datas = response.result
+    //         console.log(old_datas)
+    //     },
+    //     error: function (error) {
+    //         console.log("PHP Error : " + error);
+    //     }
+    // });
+
     wind = document.getElementById(chartDatas[0]).getContext('2d') //graphique en 2D
     window[chartDatas[0]] = new Chart(wind, { //création du graphique
         type: "line", //type de graphique
@@ -65,7 +86,6 @@ setInterval(function getData() {
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             datas = JSON.parse(this.responseText);
-            console.log(datas.uvIndex);
             editDatasets(windSpeedChart, datas.windSpeed);
             editDatasets(temperatureChart, datas.temperature);
             editDatasets(uvChart, datas.uvIndex);
@@ -89,10 +109,10 @@ setInterval(function getData() {
                 type: "POST",
                 url: "https://project.specstech.fr/post-datas.php",
                 data: donnees,
-                success: function(response) {
+                success: function (response) {
                     console.log(response);
                 },
-                error: function(error) {
+                error: function (error) {
                     console.log(error);
                 }
             });

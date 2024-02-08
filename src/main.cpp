@@ -76,6 +76,8 @@ void setup()
     //--------------------SERVER
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/index.html", "text/html"); });
+    server.on("/favicon.ico", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(SPIFFS, "/favicon.ico", "image/x-icon"); });
     server.on("/styles.css", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/styles.css", "text/css"); });
     server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
